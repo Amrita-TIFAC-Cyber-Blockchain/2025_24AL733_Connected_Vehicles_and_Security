@@ -2,7 +2,7 @@
 ![](https://img.shields.io/badge/PG-blue) ![](https://img.shields.io/badge/Subject-CVS-blue) <br/>
 
 ## Hashing Algorithm
-![](https://img.shields.io/badge/Date-27_Dec_2024-blue)
+![](https://img.shields.io/badge/Date-15_Dec_2025-blue)
 
 #### Definition
 A hashing algorithm is a one-way mathematical function that takes arbitary length input and provides fixed-length output known as hash value. 
@@ -29,3 +29,4 @@ A **cryptographic hash function (CHF)** is a hash algorithm (a map of an arbitra
 - SHA3 (SHA3-256 and SHA3-512) [2016 - Present] 
   
 [Click Here](https://www.pelock.com/products/hash-calculator) to generate hash value based on different algorithms.
+
