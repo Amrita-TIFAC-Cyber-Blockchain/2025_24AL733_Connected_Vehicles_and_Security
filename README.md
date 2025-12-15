@@ -61,7 +61,15 @@
 
 | Component | Marks |
 |:---------:|:-----:|
-
+| Quiz-1 |  3 |
+| Assignment-1 | 3.5 |
+| Project Review-1 | 5 |
+| Mid-Term Examination | 30  | 
+| Quiz-2 |  4.5 |
+| Assignment-2 | 4 |
+| Project Review-2 | 5 |
+| Project Review-3 | 5 |
+| End Semester | 40 | 
 
 ### Dates and Deadlines
 
