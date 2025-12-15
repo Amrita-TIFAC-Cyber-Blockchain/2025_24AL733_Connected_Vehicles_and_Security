@@ -2,7 +2,7 @@
 ![](https://img.shields.io/badge/PG-blue) ![](https://img.shields.io/badge/Subject-CVS-blue) <br/>
 
 ## Introduction to Cryptography
-![](https://img.shields.io/badge/Date-27_Dec_2024-blue)
+![](https://img.shields.io/badge/Date-15_Dec_2025-blue)
 
 ### CIA Triad
 
@@ -36,4 +36,5 @@ Below are the algorithms that could be used for the said purposes:
 
 ### References
 - Encryption Algorithms in Automotive Cybersecurity | Embitel. Retrieved from https://www.embitel.com/blog/embedded-blog/decrypting-the-encryption-algorithms-implemented-in-automotive-cybersecurity
+
 
