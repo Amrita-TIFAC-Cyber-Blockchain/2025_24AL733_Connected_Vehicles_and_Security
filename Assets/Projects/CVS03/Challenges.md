@@ -1,1 +1,1 @@
-# Challaenges faced during setup
+# Challenges faced during setup
