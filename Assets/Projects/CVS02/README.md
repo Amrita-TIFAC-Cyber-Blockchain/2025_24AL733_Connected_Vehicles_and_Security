@@ -21,14 +21,14 @@ The core problem addressed in this project is to analyze and compare the securit
 
 | ✅ Available | Components | Purpose |
 |:---------:|---------------|:-----------------------------------------------------------------------------------------------|
-  NA                            This project's focus is on simulation of security capabilities of CAN and CAN FD.
+  NA        | Not Applicable| This project's focus is on simulation of security capabilities and vulnerabilities of CAN and CAN FD.|
 
 ###  Software Requirements
 
 | ✅ Available | Components                         | Purpose                                                                 |
 |-------------|------------------------------------|-------------------------------------------------------------------------|
-   ✅               Vector CANOe                     Used to understand and analyze CAN and CAN FD network behavior, frame structure, bus load, and communication                                                         characteristics based on simulation and literature-supported scenarios.
-   ✅               MATLAB Simulink                  Used for conceptual modeling and visualization of CAN and CAN FD communication flow and for supporting                                                               comparative analysis based on reported performance metrics in literature.
+   ✅         |      Vector CANOe                 |   Used to understand and analyze CAN and CAN FD network behavior, frame structure, bus load, and communication                                                         characteristics based on simulation and literature-supported scenarios.|
+   ✅         |      MATLAB Simulink              |   Used for conceptual modeling and visualization of CAN and CAN FD communication flow and for supporting                                                               comparative analysis based on reported performance metrics in literature.|
 -----
 ### [Literature Survey](./R1/README.md) 
 
@@ -56,6 +56,7 @@ The core problem addressed in this project is to analyze and compare the securit
 -----
 
 ### References
+
 
 
 
