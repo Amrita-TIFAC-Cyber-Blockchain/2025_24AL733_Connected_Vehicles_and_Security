@@ -29,6 +29,7 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
        * Integrates sensing data to predict and prepare handovers proactively ("look before switch").
        * Reduces average handover interruption time by over 50% (from ~43 ms baseline).
        * Evaluated in high-speed vehicular contexts, improving reliability for safety-critical V2X services compared to traditional DSRC or standard C-V2X.
+    * Link: [Look Before Switch: Sensing-Assisted Handover in 5G NR V2I Network](https://arxiv.org/pdf/2511.05195)
 
 
 2. Intelligent Handover Decision-Making for Vehicle-to-Everything (V2X) 5G Networks
@@ -39,6 +40,7 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
      * Employs Multi-Criteria Decision-Making (MCDM) with the Technique for Order of Preference by Similarity to Ideal Solution (TOPSIS) for context-aware decisions.
      * Improves handover success rate, reduces latency, and enhances scalability using real-world vehicular mobility traces.
      * Demonstrates better performance in high-speed UEs compared to baseline 5G handover schemes.
+   * Link: [Intelligent Handover Decision-Making for Vehicle-to-Everything (V2X) 5G Networks](https://www.mdpi.com/2673-4001/6/3/47)
 
 
 3. GCN-Based Throughput-Oriented Handover Management in Dense 5G Vehicular Networks
@@ -49,6 +51,7 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
        * Proposes a Graph Convolutional Network (GCN)-based approach for throughput-oriented handover decisions.
        * Optimizes handover targets to maximize user throughput while minimizing interruptions.
        * Validated with simulations showing reduced handover failures and improved stability in dense, high-speed vehicular deployments.
+    * Link: [GCN-Based Throughput-Oriented Handover Management in Dense 5G Vehicular Networks](https://arxiv.org/abs/2505.04894)
 
 4. LSHA: A Lightweight and Secure Handover Authentication Scheme Based on Wireless Key for 5G-V2X
    * Authors: Not explicitly listed in abstracts (IEEE VTC conference team)
@@ -58,7 +61,7 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
        * Reduces transmitted data by 29% and communication delay by 31.8% compared to standard 5G handover authentication.
        * Enhances security without heavy computational overhead, suitable for resource-constrained vehicular devices.
        * Demonstrates robustness against common attacks while maintaining low-latency handovers in high-speed V2X environments.
-
+   * Link: [LSHA: A Lightweight and Secure Handover Authentication Scheme Based on Wireless Key for 5G-V2X](https://ieeexplore.ieee.org/document/11174801)
 
 5. Wall-Street: Smart Surface-Enabled 5G mmWave for Roadside Networking
    * Authors: Not explicitly detailed in summary (arXiv/cs.NI team)
@@ -68,7 +71,7 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
        * Enables collective handover decisions for multiple users inside the vehicle and neighbor-cell search without data interruption.
        * Supports make-before-break handovers for zero or near-zero interruption time.
        * Implemented and tested in real testbeds (e.g., COSMOS), demonstrating reduced service interruptions in high-mobility driving scenarios.
-
+   * Link: [Wall-Street: Smart Surface-Enabled 5G mmWave for Roadside Networking](https://arxiv.org/pdf/2405.06754)
 
 6. Optimizing Handover Mechanism in Vehicular Networks Using Deep Learning and Optimization Techniques
    * Authors: A.C.P. K. Siriwardhana, Jingling Yuan, Zhishu Shen, et al.
@@ -78,3 +81,4 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
        * Integrates K-means clustering, Deep Maxout Network (DMN), and Dung Beetle Optimizer (DBO) for intelligent handover decisions.
        * Enhances connectivity reliability and meets stringent low-latency requirements in 5G V2X.
        * Evaluated performance gains in high-mobility vehicular environments, showing reduced handover failures and better support for data-intensive services like streaming and autonomous features.
+   * Link: [Optimizing Handover Mechanism in Vehicular Networks Using Deep Learning and Optimization Techniques](https://www.sciencedirect.com/science/article/pii/S1389128625004554)
