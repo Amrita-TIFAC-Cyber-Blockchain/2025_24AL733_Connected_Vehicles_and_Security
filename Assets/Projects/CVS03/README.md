@@ -13,12 +13,31 @@
 Consider a vehicle traveling at 120 km/h (approximately 33 m/s). At this speed, it covers the diameter of a typical small cell in just seconds. If the vehicle enters a coverage gap, known as a "dead zone," or encounters a delayed handover due to network congestion, overloaded signaling, or interference, the connection may drop abruptly. This can interrupt data-intensive applications like streaming, navigation, or emerging autonomous driving features, highlighting the challenges of providing reliable high-speed mobile coverage in dense 5G deployments.
 </div>
 
+-----
 
 ### Use Case 
 <div align="justify">
 If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI for navigation, the connection drops. The vehicle essentially "goes blind" for 1–2 seconds. In a high-speed curve or intersection, this brief loss of control results in a departure from the lane or a collision with infrastructure. 
 </div>
 
+-----
+### Hardware Requirements
+
+| Available | Components    | Version |                     Purpose                                          |
+|-----------|---------------|---------|----------------------------------------------------------------------|
+|  NA       |     NA        |   NA    |Project's main focus is on simulating the scenarios using Omnet++ IDE.|
+
+-----
+
+###  Software Requirements
+
+| Available | Components    | Version                         | Purpose                               |
+|-----------|---------------|-------------------------------- |---------------------------------------|
+|   ✅      |      Omnet++  |            5.6.2                |**OMNeT++** is an extensible, modular, component-based **C++** simulation library and framework, primarily used for building network simulators.|
+|   ✅      |      Inet     |            4.2.2                |**INET Framework** is the standard open-source model library for **OMNeT++**. It provides ready-to-use, detailed implementations of a wide range of communication network protocols and components.|
+|   ✅      |      Veins    |            5.2                  |**Veins** is an open-source framework for the detailed simulation of vehicular ad-hoc networks (**VANETs**).  It acts as a bridge between two specialized simulators to create a realistic environment for testing Intelligent Transportation Systems (ITS).|
+|   ✅      |      Simu-5G  |            1.1.0                |**Simu5G** is an open-source simulation library for **OMNeT++** and **INET**, providing the 5G evolution of the well-known **SimuLTE** 4G simulator.|
+-----
 ### Literature Review
 
 1. Look Before Switch: Sensing-Assisted Handover in 5G NR V2I Network.
@@ -82,3 +101,27 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
        * Enhances connectivity reliability and meets stringent low-latency requirements in 5G V2X.
        * Evaluated performance gains in high-mobility vehicular environments, showing reduced handover failures and better support for data-intensive services like streaming and autonomous features.
    * Link: [Optimizing Handover Mechanism in Vehicular Networks Using Deep Learning and Optimization Techniques](https://www.sciencedirect.com/science/article/pii/S1389128625004554)
+
+-----
+### Proposed Solution
+
+#### Architecture Diagram
+
+#### Usecases
+
+#### Deliverables
+
+------
+### Mapping the Project to Relevant Sustainable Development Goals (SDGs)
+
+| SDG   | Alignment  |
+|:---------------|:-----|
+
+
+### Collaboration 
+| Team | Module & Scope | Contribution |
+|:----:|:--------------------------|:-------------|
+
+-----
+
+### References
