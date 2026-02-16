@@ -32,7 +32,7 @@ Operating System Windows 10/11
 SUMO           Open-source traffic simulator Used to generate realistic vehicle mobility traces Provides real-time vehicle position, speed, and route data (Integrated with Python using TraCI API)
 Programming Environment Safety message generation Passive tracking attack simulation Pseudonym change implementation Privacy metric evaluation
 Python Libraries TraCI – Interface between SUMO and Python NumPy – Numerical operations Pandas – Data logging and analysisMatplotlib / Seaborn – Visualization of tracking results Scikit-learn (optional) – For computing advanced linkability metrics
-Development Tools VSCode
+Development Tools : VSCode
 Data Handling CSV files for logging safety messages Python scripts for post-simulation analysis
 
 Visualization of results
@@ -122,6 +122,7 @@ Highlights absence of universally accepted lightweight, practical pseudonym chan
 -----
 
 ### References
+
 
 
 
