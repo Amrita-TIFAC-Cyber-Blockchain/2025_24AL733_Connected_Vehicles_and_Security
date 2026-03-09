@@ -14,6 +14,13 @@ TLS is first defined in 1999 and the latest version of TLS that is in use is TLS
 - Key Exchange: Both parties securely exchange parameters to generate the session key to encrypt the communication session.
 - Handshake Completion: A secure connection is finalized.
 
+<p align="center">
+  <img src="../images/tls1.2.png" width=500 />
+  <img src="../images/tls1.3.png" width=500 />
+</p>
+
+###### **Image Courtesy:** https://supertokens.com/blog/what-is-tls
+
 [Click Here](https://aethersimlabs.com/simulations/ssl-tls-handshake-simulator/) to use TLS Handshake Simulator
 
 ### Cipher Suite
