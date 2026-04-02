@@ -101,6 +101,49 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
    * Link: [Optimizing Handover Mechanism in Vehicular Networks Using Deep Learning and Optimization Techniques](https://www.sciencedirect.com/science/article/pii/S1389128625004554)
 
 -----
+### Implementation Details
+#### Installing/Building NS-3 with NR and 5G-LENA
+##### 1. Prerequisites
+```
+$ sudo apt update
+$ sudo apt install git cmake g++ python3 python3-dev pkg-config sqlite3 libsqlite3-dev
+```
+
+##### 2. Nevigate to NS-3 github repository
+NS-3 Github repository https://github.com/nsnam/ns-3-dev-git
+
+##### 3. Clone the repository
+```
+$ git clone https://gitlab.com/nsnam/ns-3-dev.git
+$ cd ns-3-dev
+```
+
+##### 4. Clone 5G-LENA Module
+Navigate to the contrib directory and clone the 5G-LENA repository.
+```
+$ cd contrib
+$ git clone https://gitlab.com/cttc-lena/nr.git
+$ cd ..
+```
+Ensure the nr module version matches your ns-3 version. Versions listed in software requirements.
+
+##### 5. Configure and Build:
+Configure NS-3 to include the new module and build the project.
+```
+$ ./ns3 configure --enable-examples --enable-tests
+$ ./ns3 build
+```
+
+##### 6. Verify Installation:
+Run a 5G-LENA example to verify the installation.
+```
+$ ./ns3 run cttc-nr-demo
+```
+
+#### How to run the code in NS-3
+Create the file(.cc file) in scratch folder of ns-3
+
+-----
 ### Proposed Solution
 
 #### Architecture Diagram
