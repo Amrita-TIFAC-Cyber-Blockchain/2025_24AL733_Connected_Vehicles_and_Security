@@ -23,9 +23,9 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
 -----
 ### Hardware Requirements
 
-| Available | Components    | Version |                     Purpose                                          |
-|-----------|---------------|---------|----------------------------------------------------------------------|
-|  NA       |     NA        |   NA    |Project's main focus is on simulating the scenarios using Omnet++ IDE.|
+| Available | Components    | Version |                     Purpose                                           |
+|-----------|---------------|---------|-----------------------------------------------------------------------|
+|  NA       |     NA        |   NA    |Project's main focus is on simulating the scenarios using NS-3 software|
 
 -----
 
@@ -33,10 +33,8 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
 
 | Available | Components    | Version                         | Purpose                               |
 |-----------|---------------|-------------------------------- |---------------------------------------|
-|   ✅      |      Omnet++  |            5.6.2                |**OMNeT++** is an extensible, modular, component-based **C++** simulation library and framework, primarily used for building network simulators.|
-|   ✅      |      Inet     |            4.2.2                |**INET Framework** is the standard open-source model library for **OMNeT++**. It provides ready-to-use, detailed implementations of a wide range of communication network protocols and components.|
-|   ✅      |      Veins    |            5.2                  |**Veins** is an open-source framework for the detailed simulation of vehicular ad-hoc networks (**VANETs**).  It acts as a bridge between two specialized simulators to create a realistic environment for testing Intelligent Transportation Systems (ITS).|
-|   ✅      |      Simu-5G  |            1.1.0                |**Simu5G** is an open-source simulation library for **OMNeT++** and **INET**, providing the 5G evolution of the well-known **SimuLTE** 4G simulator.|
+|   ✅      |      NS-3     |            3.44                 |ns-3 (Network Simulator 3) is a popular open-source, discrete-event network simulator designed for academic research and education.|
+|   ✅      |    5G-LENA    |            4.1.1                |5G-LENA is an open-source 5G New Radio (NR) network simulator, designed as a pluggable module to ns-3.
 -----
 ### Literature Review
 
@@ -125,3 +123,13 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
 -----
 
 ### References
+[1] Look Before Switch: Sensing-Assisted Handover in 5G NR V2I Network https://arxiv.org/pdf/2511.05195 <br>
+[2] Intelligent Handover Decision-Making for Vehicle-to-Everything (V2X) 5G Networks https://www.mdpi.com/2673-4001/6/3/47 <br>
+[3] GCN-Based Throughput-Oriented Handover Management in Dense 5G Vehicular Networks https://arxiv.org/abs/2505.04894 <br>
+[4] LSHA: A Lightweight and Secure Handover Authentication Scheme Based on Wireless Key for 5G-V2X https://ieeexplore.ieee.org/document/11174801 <br>
+[5] Wall-Street: Smart Surface-Enabled 5G mmWave for Roadside Networking https://arxiv.org/pdf/2405.06754 <br>
+[6] Optimizing Handover Mechanism in Vehicular Networks Using Deep Learning and Optimization Techniques https://www.sciencedirect.com/science/article/pii/S1389128625004554 <br>
+[7] Installing 5G-Lena 3GPP-NR module on ns-3.36 under Debian OS https://www.projectguideline.com/installing-5g-lena-3gpp-nr-module-on-ns-3-36-under-debian-os/ <br>
+[8] Open Simulations (OpenSim) https://www.cttc.cat/open-simulations-opensim/ <br>
+[9] 5G-LENA https://github.com/QiuYukang/5G-LENA <br>
+
