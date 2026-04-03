@@ -146,23 +146,76 @@ Create the file(.cc file) in scratch folder of ns-3
 -----
 ### Proposed Solution
 
+The image describes *Dynamic Telemetry*, a specialized network optimization feature designed to improve handover reliability for high-speed users (like those in cars or trains) by adjusting signaling parameters in real-time.
+
+In standard 4G/5G networks, the logic for switching from one cell to another is often "static," meaning it uses fixed timers and thresholds. This feature makes those triggers "elastic" based on how fast you are moving.
+
+#### Key Components of Dynamic Telemetry
+The text highlights three technical levers the network pulls to prevent *RLF (Radio Link Failure)*:
+
+- *Doppler Shift Measurement:* As you move toward or away from a cell tower at 120 km/h, the frequency of the radio waves shifts. The network uses this shift to calculate your exact spatial velocity.
+
+- *TTT (Time-to-Trigger) Compression:* Usually, a phone must prove that a new cell is better than the current one for a set period (e.g., 320ms) before switching. For a fast vehicle, 320ms is too long—you might already be out of range. Dynamic Telemetry compresses (shortens) this timer so the handover happens instantly.
+
+- *Hysteresis Margin Adjustment:* This is the "buffer" required to prevent the phone from bouncing back and forth between two towers. By dynamically lowering this margin for fast-moving nodes, the network allows for a "snappier" transition to the stronger signal.
+
+#### Why it Matters
+
+Without this feature, a vehicle traveling at high speeds often experiences a "Too Late Handover." By the time the static logic decides to switch, the signal from the original tower has dropped so low that the handover command cannot be received, resulting in a dropped call or lost data session.
+Dynamic Telemetry essentially "fast-forwards" the decision-making process to keep up with the physical speed of the device.
+
+-----
 #### Architecture Diagram
 
+![Architecture](https://github.com/Amrita-TIFAC-Cyber-Blockchain/2025_24AL733_Connected_Vehicles_and_Security/blob/8e47c11d99969741890bab64e36f30cc30d345cc/Assets/Projects/CVS03/images/Architecture.jpeg)
+
+###### Layered Architecture
+
+![Layered_architecture](https://github.com/Amrita-TIFAC-Cyber-Blockchain/2025_24AL733_Connected_Vehicles_and_Security/blob/8e47c11d99969741890bab64e36f30cc30d345cc/Assets/Projects/CVS03/images/Layered_architecture.png)
+
+-----
 #### Usecases
 
+##### Autonomous and Connected Vehicles (V2X)
+
+This is the most critical use case. Self-driving cars rely on V2X (Vehicle-to-Everything) communication to "see" around corners.
+
+##### The Need
+A car moving at 120 km/h covers 33 meters every second. If it loses connection for just 0.5 seconds during a handover, it misses 16 meters of real-time sensor data from the infrastructure (like a warning about a stalled car ahead).
+
+##### The Use
+Dynamic Telemetry ensures the "control plane" never drops, allowing the car to receive constant safety updates and coordinate lane merges in real-time.
+
+-----
+
 #### Deliverables
+
+| Deliverable Type | Example | Purpose 
+| :--- | :--- | :--- |
+| **Logic** | Compressed TTT Algorithms | Speeds up the "Decision to Switch" |
+| **Data** | Doppler-to-Velocity Mapping | Provides the "Context" for the switch |
+| **Proof** | RLF Reduction Report | Proves the "Reliability" of the solution |
+| **Code** | gNodeB Firmware Patch | The "Implementation" of the solution 
 
 ------
 ### Mapping the Project to Relevant Sustainable Development Goals (SDGs)
 
-| SDG   | Alignment  |
-|:---------------|:-----|
+The Indian government (NITI Aayog) has emphasized that *5G* is not just a consumer play but a foundational utility. Your project specifically maps to:
+* PM Gati Shakti:* The National Master Plan for multi-modal connectivity requires various transport systems to "talk" to each other in real-time.
+* Indigenous 5G/6G Stack:* By developing solutions like Dynamic Telemetry, India reduces reliance on foreign intellectual property, aligning with the "Make in India" initiative.
+* Safety & Security:* High-speed handover reliability is a prerequisite for the mass deployment of CCTV and emergency response systems in public transport.
 
 
+| SDG                    | Alignment                                                                                                      |
+|:-----------------------|:---------------------------------------------------------------------------------------------------------------|
+| SDG 9 (Infrastructure) |By optimizing 5G handovers for high-velocity nodes                                                              |
+| SDG 11 (Smart Cities)  |ensuring that India’s 2026 digital infrastructure is resilient, safe, and inclusive of high-speed mobility users|
+
+-----
 ### Collaboration 
 | Team | Module & Scope | Contribution |
 |:----:|:--------------------------|:-------------|
-
+|  NA  |          NA               |   NA         |
 -----
 
 ### References
