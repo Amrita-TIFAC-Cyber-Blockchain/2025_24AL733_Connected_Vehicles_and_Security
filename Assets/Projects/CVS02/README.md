@@ -77,10 +77,44 @@ This paper discusses the design and implementation of a CAN FD controller suitab
 ### Proposed Solution
 
 #### Architecture Diagram
+CAN Model
+
+<img width="800" height="413" alt="image" src="https://github.com/user-attachments/assets/6a09693b-74db-42df-b553-7a4a1bf017c2" />
+
+CAN FD Model
+
+<img width="1591" height="813" alt="image" src="https://github.com/user-attachments/assets/ec1525aa-753a-486b-944b-8188aa2968ae" />
+
 
 #### Usecases
+1. ADAS communication
+2. Diagnostics and logging
+3. Powertrain control
+4. Body control modules
+5. Modern vehicle architectures
+
 
 #### Deliverables
+CAN Results :
+
+Brake State
+<img width="1599" height="811" alt="image" src="https://github.com/user-attachments/assets/0fc98f10-fe61-4a04-814e-6f750a0166ef" />
+
+Brake Replay Attack
+<img width="1599" height="820" alt="image" src="https://github.com/user-attachments/assets/a35139b3-edc9-4af1-9687-fd90c578bf80" />
+
+Log
+<img width="1592" height="804" alt="image" src="https://github.com/user-attachments/assets/602a1e5b-4d05-43f6-b9e5-5dfdef89a1e9" />
+
+CAN FD Results :
+
+Brake State and Replay Attack
+<img width="1599" height="809" alt="image" src="https://github.com/user-attachments/assets/7549ebc6-1e03-4670-ba43-12fc07b7de2c" />
+
+Log
+<img width="1599" height="813" alt="image" src="https://github.com/user-attachments/assets/3da07376-d607-4121-94b9-0ab62eaf90e5" />
+
+
 
 ------
 ### Mapping the Project to Relevant Sustainable Development Goals (SDGs)
