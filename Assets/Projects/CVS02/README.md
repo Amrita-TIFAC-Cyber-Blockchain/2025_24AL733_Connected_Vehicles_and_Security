@@ -144,15 +144,41 @@ Replayed messages are rejected while valid messages continue to be processed, en
 
 | SDG   | Alignment  |
 |:---------------|:-----|
+| SDG 9: Industry, Innovation and Infrastructure | Enhances secure automotive communication infrastructure and supports development of robust in-vehicle networks. |
+| SDG 11: Sustainable Cities and Communities | Improves safety and reliability of smart mobility systems by preventing malicious CAN attacks. |
+| SDG 3: Good Health and Well-being | Prevents potential accidents caused by spoofed or replayed control signals in critical vehicle functions. |
 
 
 ### Collaboration 
 | Team | Module & Scope | Contribution |
 |:----:|:--------------------------|:-------------|
-
------
+| Mohan Krishna C.V (CB.EN.P2AEL25015) | CAN & CAN FD Security Implementation | Contributed to network modeling, DBC creation, CAPL programming and ecurity implementation, attack simulation, and result analysis. |
+| Akash Gera (CB.EN.P2AEL25003) | CAN Security Implementation | Contributed to network modeling, attack validation, documentation and comparative analysis. |
 
 ### References
+[1] R. Bosch GmbH, “CAN Specification Version 2.0,” Bosch, Stuttgart, Germany, 1991.
+
+[2] R. Bosch GmbH, “CAN with Flexible Data-Rate (CAN FD),” Bosch, Stuttgart, Germany, 2012.
+
+[3] K. Koscher et al., “Experimental Security Analysis of a Modern Automobile,” in Proc. IEEE Symposium on Security and Privacy, Oakland, CA, USA, 2010, pp. 447–462.
+
+[4] C. Miller and C. Valasek, “Remote Exploitation of an Unaltered Passenger Vehicle,” Black Hat USA, 2015.
+
+[5] M. Wolf, A. Weimerskirch, and T. Wollinger, “State of the Art: Embedding Security in Vehicles,” EURASIP Journal on Embedded Systems, vol. 2007, Article ID 074706, 2007.
+
+[6] N. Lodge, N. Tambe, and F. Saqib, “Addressing Vulnerabilities in CAN-FD: An Exploration and Security Enhancement Approach,” IoT, vol. 5, pp. 290–310, 2024.
+
+[7] K.-T. Cho and K. G. Shin, “Fingerprinting Electronic Control Units for Vehicle Intrusion Detection,” in Proc. 25th USENIX Security Symposium, Austin, TX, USA, 2016, pp. 911–927.
+
+[8] B. Cheon and J. W. Jeon, “The CAN FD Network Performance Analysis Using CANoe,” in Proc. Int. Conf., 2013.
+
+[9] C. Hein, K. Matheus, and J. Berlak, “Comparative Analysis of CAN-FD and 10BASE-T1S Ethernet for Time-Critical Applications in Automotive Networks,” in Proc. IEEE 21st Int. Conf. Factory Communication Systems (WFCS), 2025.
+
+[10] C. Austermann and S. Frei, “Immunity of CAN, CAN FD and Automotive Ethernet 100/1000BASE-T1 to Crosstalk From Power Electronic Systems,” IEEE Trans. Electromagnetic Compatibility, vol. 64, no. 6, pp. 2283–2291, 2022.
+
+[11] J. W. Shin, J. H. Oh, S. M. Lee, and S. E. Lee, “CAN FD Controller for In-Vehicle System,” in Proc. IEEE ISOCC, 2016.
+
+[12] S. Checkoway et al., “Comprehensive Experimental Analyses of Automotive Attack Surfaces,” in Proc. USENIX Security Symposium, 2011.
 
 
 
