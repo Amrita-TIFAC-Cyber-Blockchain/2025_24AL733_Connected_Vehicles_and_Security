@@ -21,7 +21,7 @@ The core problem addressed in this project is to analyze and compare the securit
 
 | ✅ Available | Components | Purpose |
 |:---------:|---------------|:-----------------------------------------------------------------------------------------------|
-  NA        | Not Applicable| This project's focus is on simulation of security capabilities and vulnerabilities of CAN and CAN FD.|
+  ✅      | CAN Bus (VN1600)| This project's focus is on simulation of security capabilities and vulnerabilities of CAN and CAN FD for which CAN bus is required as the hardware acts a license for the simulation.|
 
 ###  Software Requirements
 
@@ -102,18 +102,17 @@ CAN Results :
 1. Brake State
 <img width="1599" height="811" alt="image" src="https://github.com/user-attachments/assets/0fc98f10-fe61-4a04-814e-6f750a0166ef" />
 <br>
-
-2. Brake Replay Attack
-
 <br>
+2. Brake Replay Attack
+<br><br>
 
 In this setup, a legitimate ECU transmits a speed value of 60 km/h at a lower frequency, while a rogue node injects a spoofed message with the same ID at a much higher frequency, carrying a value of 200 km/h. Due to the absence of authentication in CAN, the receiving nodes accept both messages, but the higher transmission rate of the attacker causes the spoofed value to dominate. This is clearly visible in the Trace, Data, and Graphics panels, where the system primarily reflects the malicious value.
 <br>
 
 <img width="1599" height="820" alt="image" src="https://github.com/user-attachments/assets/a35139b3-edc9-4af1-9687-fd90c578bf80" />
-
+<br><br>
 3.Log
-
+<br><br>
 Due to the 8-byte payload limitation of Classical CAN, only lightweight security mechanisms such as a small MAC and counter-based 
 freshness can be implemented. These enable detection and logical rejection of attacks, but not protocol-level prevention.
 
@@ -124,22 +123,21 @@ Classical CAN lacks native security; we implemented application-layer authentica
 <br>
 
 <img width="1592" height="804" alt="image" src="https://github.com/user-attachments/assets/602a1e5b-4d05-43f6-b9e5-5dfdef89a1e9" />
-
+<br><br>
 CAN FD Results :
-
+<br><br>
 1. Brake State and Replay Attack
-
+<br><br>
 <img width="1599" height="809" alt="image" src="https://github.com/user-attachments/assets/7549ebc6-1e03-4670-ba43-12fc07b7de2c" />
-
-<br>
+<br><br>
 
 2.Log
-
-<br>
-
+<br><br>
+Replay attack uses valid authenticated data, but is detected using a freshness counter, ensuring message authenticity and integrity.
+The controller validates MAC and counter.
+Replayed messages are rejected while valid messages continue to be processed, ensuring system robustness under attack.
+<br><br>
 <img width="1599" height="813" alt="image" src="https://github.com/user-attachments/assets/3da07376-d607-4121-94b9-0ab62eaf90e5" />
-
-
 
 ------
 ### Mapping the Project to Relevant Sustainable Development Goals (SDGs)
