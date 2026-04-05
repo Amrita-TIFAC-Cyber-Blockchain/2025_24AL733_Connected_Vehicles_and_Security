@@ -1,6 +1,6 @@
 # 24AL733 - Connected Vehicles and Security 
 
-## CVS01 - 
+## CVS02 - CAN FD vs Traditional CAN: Vulnerability Analysis
 
 ![](https://img.shields.io/badge/Member--gold) ![](https://img.shields.io/badge/Member--gold) <br/> 
 ![](https://img.shields.io/badge/SDG--darkgreen) ![](https://img.shields.io/badge/SDG--darkgreen) <br/> 
