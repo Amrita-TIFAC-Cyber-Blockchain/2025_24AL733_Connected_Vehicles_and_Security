@@ -77,12 +77,14 @@ This paper discusses the design and implementation of a CAN FD controller suitab
 ### Proposed Solution
 
 #### Architecture Diagram
-CAN Model
+CAN Model:
 
 <img width="800" height="413" alt="image" src="https://github.com/user-attachments/assets/6a09693b-74db-42df-b553-7a4a1bf017c2" />
-
-CAN FD Model
-
+<br>
+<br>
+CAN FD Model:
+<br>
+<br>
 <img width="1591" height="813" alt="image" src="https://github.com/user-attachments/assets/ec1525aa-753a-486b-944b-8188aa2968ae" />
 
 
@@ -97,21 +99,44 @@ CAN FD Model
 #### Deliverables
 CAN Results :
 
-Brake State
+1. Brake State
 <img width="1599" height="811" alt="image" src="https://github.com/user-attachments/assets/0fc98f10-fe61-4a04-814e-6f750a0166ef" />
+<br>
 
-Brake Replay Attack
+2. Brake Replay Attack
+
+<br>
+
+In this setup, a legitimate ECU transmits a speed value of 60 km/h at a lower frequency, while a rogue node injects a spoofed message with the same ID at a much higher frequency, carrying a value of 200 km/h. Due to the absence of authentication in CAN, the receiving nodes accept both messages, but the higher transmission rate of the attacker causes the spoofed value to dominate. This is clearly visible in the Trace, Data, and Graphics panels, where the system primarily reflects the malicious value.
+<br>
+
 <img width="1599" height="820" alt="image" src="https://github.com/user-attachments/assets/a35139b3-edc9-4af1-9687-fd90c578bf80" />
 
-Log
+3.Log
+
+Due to the 8-byte payload limitation of Classical CAN, only lightweight security mechanisms such as a small MAC and counter-based 
+freshness can be implemented. These enable detection and logical rejection of attacks, but not protocol-level prevention.
+
+<br>
+
+Classical CAN lacks native security; we implemented application-layer authentication and replay protection, achieving detection and logical prevention, but not physical blocking of malicious messages
+
+<br>
+
 <img width="1592" height="804" alt="image" src="https://github.com/user-attachments/assets/602a1e5b-4d05-43f6-b9e5-5dfdef89a1e9" />
 
 CAN FD Results :
 
-Brake State and Replay Attack
+1. Brake State and Replay Attack
+
 <img width="1599" height="809" alt="image" src="https://github.com/user-attachments/assets/7549ebc6-1e03-4670-ba43-12fc07b7de2c" />
 
-Log
+<br>
+
+2.Log
+
+<br>
+
 <img width="1599" height="813" alt="image" src="https://github.com/user-attachments/assets/3da07376-d607-4121-94b9-0ab62eaf90e5" />
 
 
