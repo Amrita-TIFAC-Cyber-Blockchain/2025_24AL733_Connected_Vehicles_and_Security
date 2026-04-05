@@ -105,8 +105,8 @@ If the vehicle is relying on Remote Driving (Tele-operation) or cloud-based AI f
 #### Installing/Building NS-3 with NR and 5G-LENA
 ##### 1. Prerequisites
 ```
-$ sudo apt update
-$ sudo apt install git cmake g++ python3 python3-dev pkg-config sqlite3 libsqlite3-dev
+ sudo apt update
+ sudo apt install git cmake g++ python3 python3-dev pkg-config sqlite3 libsqlite3-dev
 ```
 
 ##### 2. Nevigate to NS-3 github repository
@@ -114,34 +114,92 @@ NS-3 Github repository https://github.com/nsnam/ns-3-dev-git
 
 ##### 3. Clone the repository
 ```
-$ git clone https://gitlab.com/nsnam/ns-3-dev.git
-$ cd ns-3-dev
+ git clone https://gitlab.com/nsnam/ns-3-dev.git
+ cd ns-3-dev
 ```
 
 ##### 4. Clone 5G-LENA Module
 Navigate to the contrib directory and clone the 5G-LENA repository.
 ```
-$ cd contrib
-$ git clone https://gitlab.com/cttc-lena/nr.git
-$ cd ..
+ cd contrib
+ git clone https://gitlab.com/cttc-lena/nr.git
+ cd ..
 ```
 Ensure the nr module version matches your ns-3 version. Versions listed in software requirements.
 
 ##### 5. Configure and Build:
 Configure NS-3 to include the new module and build the project.
 ```
-$ ./ns3 configure --enable-examples --enable-tests
-$ ./ns3 build
+ ./ns3 configure --enable-examples --enable-tests
+ ./ns3 build
 ```
 
 ##### 6. Verify Installation:
 Run a 5G-LENA example to verify the installation.
 ```
-$ ./ns3 run cttc-nr-demo
+ ./ns3 run cttc-nr-demo
 ```
 
 #### How to run the code in NS-3
-Create the file(.cc file) in scratch folder of ns-3
+Create the file(.cc file) in scratch folder of ns-3. I am using fresh text editor.
+```
+ fresh scratch/5g-rlf-highway.cc
+```
+build and run. file extension is not needed while running the script.
+```
+./ns3 run scratch/5g-rlf-highway
+```
+
+#### Vairent of attack simulation script
+
+The attack simulation has attack mode as:
+* attack=none → No attack (just observe blind zone packet loss)
+* attack=stop → Attacker stops the vehicle (default)
+* attack=reverse → Attacker reverses the vehicle
+
+How to run?
+```
+# 1. Default: Stop attack
+./ns3 run "scratch/5g-rlf-highway-attack --attack=stop"
+
+# 2. Reverse attack
+./ns3 run "scratch/5g-rlf-highway-attack --attack=reverse"
+
+# 3. No attack (just to observe blind zone)
+./ns3 run "scratch/5g-rlf-highway-attack --attack=none"
+```
+### PyViz visualizer 
+NS-3 PyViz is a live simulation visualizer for the ns-3 network simulator. 
+* Function: Unlike offline tools, it provides real-time visualization of simulations to help debug mobility models and packet drops.
+* Controls: It allows users to interactively drag nodes and view interface statistics during the simulation run.
+
+How to run script in PyViz?
+```
+#by simply adding --vis argument at the end we can simulate the script in PyViz visualizer
+#for e.g.
+
+./ns3 run scratch/5g-rlf-highway --vis
+
+./ns3 run "scratch/5g-rlf-highway-attack --attack=stop" --vis
+```
+### NetAnim
+NetAnim is a Qt5-based, standalone tool for visualizing ns-3 simulations, creating offline animations from XML trace files. It displays network topologies, node mobility, and packet flows.
+
+#### Quick setup of NetAnim
+Prerequisits
+```
+sudo apt-get install qt5-default # For older Ubuntu
+# OR for newer versions:
+sudo apt-get install qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools
+```
+```
+cd ns-allinone-3.x.x/netanim-3.xxx/
+make clean
+qmake NetAnim.pro # Use 'qmake-qt5' if 'qmake' points to Qt4
+make
+./NetAnim
+```
+import xml file in NetAnim GUI and simulate
 
 -----
 ### Proposed Solution
