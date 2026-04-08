@@ -160,6 +160,18 @@ The system operates on a decoupled, closed-loop software architecture. This desi
 
 #### Usecases
 
+#### 1. Privacy Risk Scenario (The Threat)
+* **Action:** An unauthorized passive observer sniffs unencrypted BSM broadcasts over time.
+* **Impact:** Because vehicles use static or poorly obfuscated pseudonyms, the observer utilizes a physics-based search cone to link the identifiers together, reconstructing the driver's full commute (e.g., Home to Workplace) without ever breaking cryptography.
+
+#### 2. Expected Behavior with Mitigation (Normal Operation)
+* **Action:** Vehicles autonomously form Mix-Zones at intersections and execute synchronized, velocity-adaptive pseudonym swaps.
+* **Impact:** The observer's spatial-temporal heuristic is mathematically shattered. Public tracking drops to $<20\%$. At the same time, nearby vehicles continue to receive necessary collision-avoidance data seamlessly.
+
+#### 3. Authorized Authority Resolution (Accountability)
+* **Action:** A traffic incident occurs, requiring the identity of a specific vehicle involved in a hit-and-run.
+* **Impact:** Law enforcement queries the `trusted_backend` ledger. The system successfully maps the localized, time-bound temporary pseudonym back to the vehicle's permanent VIN/Owner identity.
+
 #### Deliverables
 
 ------
