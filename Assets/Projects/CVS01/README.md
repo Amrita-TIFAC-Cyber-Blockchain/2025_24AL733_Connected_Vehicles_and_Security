@@ -31,14 +31,18 @@ The proposed mitigation operates as an edge-computed software simulation. While 
 
 ###  Software Requirements
 
-| ✅ Available | Components                         | Purpose                                                                 |
-|-------------|------------------------------------|-------------------------------------------------------------------------|
-Operating System Windows 10/11
-SUMO           Open-source traffic simulator Used to generate realistic vehicle mobility traces Provides real-time vehicle position, speed, and route data (Integrated with Python using TraCI API)
-Programming Environment Safety message generation Passive tracking attack simulation Pseudonym change implementation Privacy metric evaluation
-Python Libraries TraCI – Interface between SUMO and Python NumPy – Numerical operations Pandas – Data logging and analysisMatplotlib / Seaborn – Visualization of tracking results Scikit-learn (optional) – For computing advanced linkability metrics
-Development Tools : VSCode
-Data Handling CSV files for logging safety messages Python scripts for post-simulation analysis
+### Software Requirements
+
+The project relies on a decoupled software architecture, separating the heavy physical simulation backend from the interactive data analytics frontend.
+
+| Component | Technology / Library | Engineering Justification |
+| :--- | :--- | :--- |
+| **Core Physics Engine** | **Eclipse SUMO** (Simulation of Urban MObility) | Provides microscopic, continuous physical traffic modeling. Enforces real-world kinematic constraints (acceleration, spatial boundaries) required to test the attacker's spatial-temporal heuristic. |
+| **Control Interface** | **TraCI** (Traffic Control Interface) | The essential TCP-based client/server architecture that bridges the Python execution engine (`runner.py`) with the SUMO backend, allowing frame-by-frame manipulation of vehicle colors and BSM broadcasts. |
+| **Programming Environment** | **Python 3.8+** | Serves as the primary execution environment for the On-Board Unit (OBU) logic, the adversary model (`attacker.py`), and the strict empirical grader (`visualizer.py`). |
+| **Data Analytics & UI** | **Streamlit**, **Matplotlib**, & **Pandas** | `Streamlit` provides a decoupled, interactive web server for the presentation layer. `Matplotlib` mathematically plots the 2D geometric tracking arrays and trajectory overlays. |
+| **Data Handling** | **JSON** (`metrics.json`, `trajectories.json`) | Replaces traditional CSV logging with lightweight JSON artifacts. This ensures fast, non-blocking I/O exchange between the heavy simulation backend and the frontend dashboard. |
+| **Development Tools** | **VS Code** / PyCharm | Standard IDEs for managing the repository, executing terminal commands, and debugging the TraCI step-loops. |
 
 Visualization of results
 -----
