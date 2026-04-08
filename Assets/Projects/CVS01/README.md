@@ -194,8 +194,8 @@ The system operates on a decoupled, closed-loop software architecture. This desi
 ### Collaboration 
 | Team Member | Module & Scope Contribution |
 | :--- | :--- |
-| **Aditya Kumar** | M.Tech AEL - Implementation of the TraCI execution engine, spatial-temporal attacker heuristic, and velocity-adaptive privacy algorithms. |
-| **Kalirajan M** | M.Tech AEL - Simulation environment setup, evaluation metric generation, and data visualization dashboard architecture. |
+| **Aditya Kumar** | M.Tech AEL - Implementation of the TraCI execution engine, spatial-temporal attacker heuristic, velocity-adaptive privacy algorithm and data visualization dashboard architecture s. |
+| **Kalirajan M** | M.Tech AEL - Simulation environment setup and evaluation metric generation |
 
 -----
 
