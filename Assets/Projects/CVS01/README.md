@@ -119,6 +119,25 @@ Highlights absence of universally accepted lightweight, practical pseudonym chan
 ------
 
 ### Proposed Solution
+Our proposed solution is an empirical synthesis of Dynamic Mix-Zones and Velocity-Adaptive Silent Periods, optimized for real-world physics while intentionally avoiding the latency of heavy cryptography and the high costs of Roadside Units (RSUs).The mitigation progressively evolves through four tested scenarios:
+
+V1 - Baseline (No Privacy): Static identifiers are broadcast continuously. (Yields ~100% Attacker Tracking).
+
+V2 - Naive Approach (Blind Swaps): Time-based swaps every 3 seconds. The attacker easily predicts the trajectory using a spatial-temporal heuristic (Distance <= Speed * 1.5 + 10.0).
+
+V3 - Smart Mitigation (Mix-Zones + Silence): Vehicles only swap pseudonyms when near >= 2 neighbors, followed by a random 3–6s period of radio silence to break the attacker's prediction cone.
+
+V4 - Hybrid Mitigation (The Ultimate Solution): Introduces a Cooperative Handshake where groups of vehicles swap pseudonyms synchronously at the exact same simulation step. This is paired with Velocity-Adaptive Silence (Silence = 1000.0 / max(0.1, Speed)), dynamically ensuring fast vehicles return to the safety network quickly while slow vehicles take the time needed to safely escape the tracking radius.
+
+Consent, Selective Disclosure & Information Sharing Model
+
+Vehicle information is not fully shared at all times. Disclosure strictly depends on context, necessity, and consent:
+| Scenario | Information Shared | Accessible By |
+| :--- | :--- | :--- |
+| **Normal Driving** | Temporary pseudonym + basic safety data (Location, Speed, Heading) | Public / Nearby Vehicles |
+| **Traffic Safety Event** | Pseudonym + real-time position & speed | Public / Nearby Vehicles |
+| **Emergency / Legal Case** | Authorized identity resolution via `trusted_backend` | Law Enforcement / Traffic Authority |
+| **Vehicle Theft Investigation** | Full traceability via backend authority | Law Enforcement / Traffic Authority |
 
 #### Architecture Diagram
 
