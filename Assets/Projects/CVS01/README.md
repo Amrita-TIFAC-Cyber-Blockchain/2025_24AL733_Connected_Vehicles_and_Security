@@ -45,7 +45,9 @@ The project relies on a decoupled software architecture, separating the heavy ph
 | **Development Tools** | **VS Code** / PyCharm | Standard IDEs for managing the repository, executing terminal commands, and debugging the TraCI step-loops. |
 
 -----
-Visualization of results
+### Visualization of results
+
+
 The project utilizes a dual-layered visualization approach to demonstrate both real-time algorithmic execution and post-simulation empirical metrics.
 
 1. Real-Time Physical Simulation (SUMO & TraCI GUI)During the live execution of runner.py, the simulation provides immediate visual feedback of the privacy states of all vehicles on the 5x5 urban grid:Dynamic Color-Coding: Vehicles dynamically change colors via TraCI commands to represent their current vulnerability:Green (Default): The vehicle is broadcasting normally and is highly vulnerable to spatial-temporal tracking.Yellow (Pending Swap): The vehicle has initiated a pseudonym change but is actively searching for $\ge 2$ neighbors to form a Mix-Zone.Red (Radio Silence): The vehicle has successfully swapped its identifier and temporarily disabled BSM broadcasts to evade the attacker's prediction radius.On-Screen Display (OSD): A live overlay renders the active Scenario Name, Mitigation Logic, and Color Legend directly onto the simulation map.
