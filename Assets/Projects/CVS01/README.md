@@ -174,6 +174,13 @@ The system operates on a decoupled, closed-loop software architecture. This desi
 
 #### Deliverables
 
+1. **`network_gen.py`**: Automated infrastructure and traffic generator script.
+2. **`runner.py`**: The core execution engine and TraCI step-controller.
+3. **`attacker.py`**: The spatial-temporal adversary heuristic model.
+4. **`visualizer.py`**: Empirical metric calculator (Tracking Success & Linkability).
+5. **`dashboard.py`**: Interactive Streamlit presentation application.
+6. **Simulation Artifacts**: `metrics.json` and `trajectories.json` generated dynamically to prove tracking degradation.
+7. **Presentation Decks**: Academic slide decks detailing the engineering logic, mathematical formulas, and literature gap analysis.
 ------
 ### Mapping the Project to Relevant Sustainable Development Goals (SDGs)
 
