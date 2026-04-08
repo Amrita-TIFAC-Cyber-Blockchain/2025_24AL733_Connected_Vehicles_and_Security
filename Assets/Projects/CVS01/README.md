@@ -46,6 +46,12 @@ The project relies on a decoupled software architecture, separating the heavy ph
 
 -----
 Visualization of results
+The project utilizes a dual-layered visualization approach to demonstrate both real-time algorithmic execution and post-simulation empirical metrics.
+
+1. Real-Time Physical Simulation (SUMO & TraCI GUI)During the live execution of runner.py, the simulation provides immediate visual feedback of the privacy states of all vehicles on the 5x5 urban grid:Dynamic Color-Coding: Vehicles dynamically change colors via TraCI commands to represent their current vulnerability:Green (Default): The vehicle is broadcasting normally and is highly vulnerable to spatial-temporal tracking.Yellow (Pending Swap): The vehicle has initiated a pseudonym change but is actively searching for $\ge 2$ neighbors to form a Mix-Zone.Red (Radio Silence): The vehicle has successfully swapped its identifier and temporarily disabled BSM broadcasts to evade the attacker's prediction radius.On-Screen Display (OSD): A live overlay renders the active Scenario Name, Mitigation Logic, and Color Legend directly onto the simulation map.
+  
+2. Interactive Analytical Dashboard (dashboard.py)To prove the efficacy of the algorithms, a decoupled Streamlit web application parses the generated JSON artifacts (metrics.json and trajectories.json) into interactive academic visualizations:Quantitative Bar Charts: Dynamically compares the Tracking Success Rate (%) and Linkability (%) across all four scenarios (Baseline, Naive, Smart, Hybrid), visually proving the degradation of the attacker's capabilities from ~100% down to $<20\%$.Spatial Trajectory Overlays (The Visual Proof): Uses Matplotlib to plot the 2D $X, Y$ coordinate path of a sample vehicle. It overlays the Ground Truth Path (Solid Blue Line) against the Attacker's Reconstructed Track (Dashed Red Line).This interactive map proves exactly where the Hybrid evasion algorithm mathematically breaks the spatial-temporal link, forcing the red line to drop the blue line.
+
 -----
 ### [Literature Survey](./R1/README.md) 
 Paper :Anonymity Assurance Using Efficient Pseudonym Consumption in Internet of Vehicles – Sensors 2023
