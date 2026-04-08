@@ -1,77 +1,75 @@
-<p align="center">
-    <img src="https://github.com/Amrita-TIFAC-Cyber-Blockchain/.github/blob/main/profile/img/AVV_CYS_Logo.png" alt ="Amrita TIFAC" width="700" />
-</p>
+# SUMO/TraCI Privacy Mitigation Simulation
 
-# 24AL733 - Connected Vehicles and Security 
-![](https://img.shields.io/badge/PG-blue) ![](https://img.shields.io/badge/Subject-CVS-blue) <br/>
-![](https://img.shields.io/badge/Lecture-3-orange) ![](https://img.shields.io/badge/Credits-3-orange) <br/> ![](https://img.shields.io/badge/Students-TBD-gold) <br/> 
+This project is a traffic simulation built to demonstrate **privacy vulnerabilities** and **mitigation strategies** in connected vehicles.
 
-#### Course Instructor:  Ramaguru R, Assistant Professor (Senior Grade), TIFAC-CORE in Cyber Security.
+Connected vehicles continuously share safety-related information (Basic Safety Messages or BSMs) such as location, speed, and direction. Unauthorized entities can passively collect these broadcast messages and link them over time using spatial-temporal heuristics to track vehicle movements, reveal travel patterns, and profile users.
 
-### :books: Course Outcome
+This simulation evaluates the effectiveness of different **pseudonym change** mechanisms at the vehicle level to mitigate unauthorized tracking without relying on heavy cryptography or roadside infrastructure.
 
-| CO#  | CO Description |
-|------|----------------|
-| CO1 | Understand the architecture and components of connected vehicles |
-| CO2 | Understand the unique cybersecurity threats and vulnerabilities in connected vehicles |
-| CO3 | Understand current and emerging technologies for securing connected vehicles |
-| CO4 | Understand the security aspects in OTA (Over-The-Air) updates |
+## Project Architecture
 
-### :watch: Course Plan and Status
+1.  **Simulator:** SUMO (Simulation of Urban MObility) simulates a dense 5x5 urban grid.
+2.  **Controller:** Python via TraCI controls the simulation step-by-step, managing BSM broadcasts and pseudonym swaps.
+3.  **Attacker:** A background Python class (`Attacker`) passively collects BSMs and attempts to stitch together vehicle trajectories using a predictive physics model ($Distance \le Speed \times 1.5 + 10.0$).
+4.  **Dashboard:** An interactive Streamlit dashboard visualizes the mitigation performance (Linkability & Tracking Success Rate) and maps the attacker's reconstructed trajectories against ground truth.
 
-| Lecture No(s) | Topics                                   | Subtopics                                                                                 | Keywords                       | Remarks                              | CO & BTL    |
-|---------------|------------------------------------------|-------------------------------------------------------------------------------------------|--------------------------------|--------------------------------------|-------------|
-| 1             | Introduction to Connected Vehicles       | Definition of connected vehicles, Key components, Ecosystem overview                      | Connected vehicles, IoT, sensors, ECU | Basic introduction to the ecosystem | CO1, BTL 1 |
-| 2             | Key Features of Connected Vehicles       | Real-time communication, Autonomy, Data sharing, Safety features                          | Real-time, data sharing, autonomy     | Exploring key capabilities          | CO1, BTL 2 |
-| 3             | Communication Technologies in Connected Vehicles | Overview of V2X, Comparison of DSRC and C-V2X, Use of Wi-Fi and Bluetooth                 | V2X, DSRC, C-V2X, Wi-Fi              | Core technologies                   | CO1, BTL 2 |
-| 4             | Protocols for Connected Vehicles         | Communication standards, Role of 5G, Low-latency communication protocols                   | Protocols, standards, 5G             | Protocol focus                      | CO1, BTL 3 |
-| 5             | Role of 5G in Vehicle Connectivity       | Features of 5G, Network slicing, Scalability, Reliability                                 | 5G, low latency, reliability         | Impact of 5G                        | CO1, BTL 3 |
-| 6             | Cellular Cloud Computing in Vehicle Ecosystems | Basics of cellular cloud computing, Applications in connected vehicles                    | Cellular cloud, applications         | Vehicle cloud ecosystem             | CO1, BTL 2 |
-| 7             | Authentication and Authorization Mechanisms | Key methods, Certificate-based approaches, Identity verification                          | Authentication, certificates         | Security in vehicle systems         | CO2, BTL 3 |
-| 8             | Privacy Concerns and Mitigation Strategies | Key privacy risks, Mitigation techniques, Data anonymization                              | Privacy risks, anonymization         | Protecting user data                | CO2, BTL 4 |
-| 9             | Challenges of Vehicle Connectivity       | Key challenges, Scalability, Interoperability, Security                                   | Scalability, security               | Challenges in implementation        | CO1, BTL 4 |
-| 10            | Overview of Telematics                   | Definition, Applications, Components                                                     | Telematics, fleet management         | Role of telematics                  | CO1, BTL 2 |
-| 11            | Big Data in Connected Vehicles           | Introduction to big data, Data types, Sources in vehicles                                 | Big data, sensors                   | Leveraging data                     | CO1, BTL 2 |
-| 12            | Data Processing Technologies             | Data pipelines, Processing methods (e.g., batch, stream)                                  | Data pipelines, stream processing     | Handling vehicle data               | CO1, BTL 3 |
-| 13            | Overview of Automotive Cybersecurity     | Definition, Scope, Importance                                                             | Automotive cybersecurity             | Basic overview                      | CO2, BTL 2 |
-| 14            | Key Threats and Vulnerabilities          | Types of threats, Vulnerabilities in connected vehicles                                   | Threats, vulnerabilities             | Core risks                          | CO2, BTL 3 |
-| 15            | Automotive Cyber-Attacks                 | Examples of attacks, Attack surfaces, Real-world cases                                    | Cyber-attacks, real-world cases      | Real-world examples                 | CO2, BTL 4 |
-| 16            | Cryptography and Security Protocols      | Symmetric vs asymmetric cryptography, Applications in vehicles                            | Cryptography, security protocols      | Role in automotive security         | CO2, BTL 3 |
-| 17            | Public Key Infrastructure (PKI)          | Introduction to PKI, Role of digital certificates                                         | PKI, digital certificates            | Secure communication                | CO3, BTL 4 |
-| 18            | Secure Communication Protocols           | Overview of protocols (e.g., TLS, SSL)                                                   | Secure protocols                     | Enabling secure connections         | CO3, BTL 4 |
-| 19            | Communication Over CAN FD and Ethernet   | Secure communication methods over CAN FD, Ethernet                                        | CAN FD, Ethernet, secure methods     | Secure transport layer              | CO3, BTL 3 |
-| 20            | Intrusion Detection and Prevention Systems | Types of IDS/IPS, Applications in vehicles                                               | IDS, IPS, detection systems          | Enhancing vehicle security          | CO3, BTL 4 |
-| 21            | Overview of Cloud Security               | Key technologies for secure cloud integration                                             | Cloud security, vehicle cloud         | Cloud security fundamentals         | CO3, BTL 3 |
-| 22            | Zero Trust Architecture                  | Principles of Zero Trust, Applications in automotive systems                              | Zero Trust, trust principles          | Advanced security approach          | CO3, BTL 4 |
-| 23            | Introduction to OTA in Automotive        | Definition of OTA, Evolution of OTA in connected vehicles                                 | OTA, updates, evolution               | Core OTA concepts                   | CO4, BTL 2 |
-| 24            | OTA Architecture and Standards           | Overview of standards, Components of OTA architecture                                     | OTA architecture, standards           | Framework for OTA                   | CO4, BTL 3 |
-| 25            | Types of OTA Updates                     | Software updates, Firmware updates, Configuration updates                                 | OTA types, updates                    | Update classifications              | CO4, BTL 3 |
-| 26            | OTA Update Process Strategies            | Lifecycle of OTA updates, Best practices                                                 | OTA lifecycle, strategies             | Ensuring reliable updates           | CO4, BTL 4 |
-| 27            | DevOps for Software-Defined Vehicles     | Role of DevOps, Continuous integration, Deployment pipelines                              | DevOps, CI/CD                         | Streamlining development            | CO4, BTL 3 |
-| 28            | Security Challenges in OTA Updates       | Risks in OTA updates, Mitigation strategies                                              | OTA risks, security                   | Addressing vulnerabilities          | CO4, BTL 4 |
-| 29            | Risks and Threats in OTA Updates         | Types of risks, Impact on vehicle systems                                                | Risks, impact                         | Core OTA challenges                 | CO4, BTL 3 |
-| 30            | OTA Diagnostics                          | Key diagnostic techniques, Tools for OTA diagnostics                                     | OTA diagnostics, tools                | Debugging OTA systems               | CO4, BTL 4 |
-| 31            | Secure Update Delivery Mechanisms        | Integrity and authenticity, Encryption methods                                           | Secure delivery, encryption           | Ensuring safe updates               | CO4, BTL 4 |
-| 32            | Future Challenges in Securing OTA Updates| Emerging risks, Evolving security requirements                                           | Future risks, evolving standards      | Preparing for the future            | CO4, BTL 5 |
-| 33            | Emerging Technologies in Connected Vehicles | Blockchain, AI, IoT integrations                                                        | Blockchain, AI, IoT                  | Advanced integration                | CO4, BTL 5 |
-| 34            | Long-Term Challenges in Connected Vehicles | Scalability, Legal and ethical challenges                                               | Scalability, ethics                   | Exploring broader issues            | CO4, BTL 5 |
-| 35            | Integrated View of Connected Vehicles and Future Directions | Emerging technologies (e.g., AI, blockchain), Long-term challenges                      | AI, blockchain, next-gen trends       | Concluding lecture                  | CO4, BTL 6 |
+---
 
-### Evaluation Criteria
+## The Four Mitigation Scenarios
 
-| Component | Marks |
-|:---------:|:-----:|
-| Quiz-1 |  3 |
-| Assignment-1 | 3.5 |
-| Project Review-1 | 5 |
-| Mid-Term Examination | 30  | 
-| Quiz-2 |  4.5 |
-| Assignment-2 | 4 |
-| Project Review-2 | 5 |
-| Project Review-3 | 5 |
-| End Semester | 40 | 
+The simulation evaluates four distinct scenarios, progressively implementing smarter privacy defenses:
 
-### Dates and Deadlines
+1.  **Baseline (No Privacy):** Vehicles broadcast their BSMs using a static identifier for their entire trip. The attacker can trivially track 100% of vehicles.
+2.  **Naive (Blind Swaps):** Vehicles blindly change their pseudonym every 3 seconds. The attacker can easily link the new pseudonym to the old one because the vehicle's location and speed barely change in a fraction of a second.
+3.  **Smart (Density + Silence):** Vehicles only change pseudonyms when near at least 2 other vehicles (Mix-Zone), and implement a short period of **Radio Silence** (disabling BSM broadcasts) for a random duration (3-6s) to break the attacker's continuity.
+4.  **Hybrid (Cooperative + Adaptive Silence):** Vehicles form cooperative groups with nearby vehicles and swap pseudonyms *synchronously*. Furthermore, the duration of their Radio Silence is dynamically adapted based on their current velocity (faster vehicles require less silence to escape the attacker's search radius).
 
-| Course Start | TBD - Dec - 2025 | Deadline | 
-|--------------|-----------------|:--------:|
+---
+
+## Visual Interpretation (SUMO-GUI)
+
+When running the simulation with the `--gui` flag, you can watch the mitigations occur in real-time. Look for the following color codes on the vehicles:
+
+*   🟢 **Green (Default):** The vehicle is broadcasting normally. In the Baseline scenario, all vehicles remain green.
+*   🟡 **Yellow (Pending Swap):** The vehicle is attempting to swap its pseudonym but is waiting for a dense "Mix-Zone" or a cooperative group to form.
+*   🔴 **Red (Radio Silence):** The vehicle has successfully swapped its pseudonym and has temporarily **disabled its BSM broadcasts** to evade the attacker's tracking radius.
+
+A large **On-Screen Display (OSD)** will appear overlaid on the map during the presentation. This OSD dynamically updates to show the audience the current Scenario Name, a "Logic" prompt justifying the privacy behavior, and a color legend.
+
+> **💡 Note on Metric Fluctuation:** By default, the simulation uses true randomness. Every time you run the script, SUMO generates completely new traffic routes, spawning times, and vehicle interactions. Therefore, your final privacy metrics (Tracking Success Rate %) will dynamically fluctuate on every execution, proving to your audience that the math is being calculated in real-time rather than reading hardcoded values!
+
+---
+
+## How to Run
+
+### 1. Requirements
+
+Ensure you have SUMO installed on your system.
+*   **Ubuntu/Debian:** `sudo apt-get install sumo sumo-tools sumo-doc`
+*   **Mac:** `brew install sumo`
+
+Install the required Python packages:
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Run the Simulation
+
+Execute `runner.py` to generate the network, run all 4 scenarios sequentially, calculate the privacy metrics, and save the results for the dashboard.
+
+To run with the visual presentation mode (recommended):
+```bash
+python3 runner.py --gui
+```
+
+*(Optional)* To see the attacker's real-time heuristic logs flooding the terminal, append the `--verbose` flag.
+*(Optional)* If you need fully reproducible and static metrics (for example, to take consistent screenshots), append the `--static` flag to disable true randomness.
+
+### 3. View the Results Dashboard
+
+After the simulation completes, start the Streamlit application to explore the interactive charts and trajectory maps:
+
+```bash
+streamlit run dashboard.py
+```
+This will open a local web server (usually at `http://localhost:8501`) displaying the architectural diagrams, metric drops, and an interactive map showing how well the attacker reconstructed a specific vehicle's path.
