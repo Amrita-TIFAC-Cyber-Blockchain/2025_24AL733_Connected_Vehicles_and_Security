@@ -16,13 +16,18 @@ Therefore, the problem addressed in this work is:
 How can unauthorized passive tracking during collision detection message broadcasting be mitigated using a lightweight pseudonym-change mechanism, while preserving conditional traceability for authorized authorities and without relying on infrastructure-heavy or cryptography-intensive solutions.
    
 -----
+
 ### Hardware Requirements
 
-| ✅ Available | Components | Purpose |
-|:---------:|---------------|:-----------------------------------------------------------------------------------------------|
-No specialized hardware is required. 
-The project is implemented using software-based simulation tools (e.g., Python). 
-Platform: Standard Laptop (8GB RAM recommended).
+The proposed mitigation operates as an edge-computed software simulation. While no specialized roadside hardware (RSUs) or automotive On-Board Units (OBUs) are physically required to execute the testbed, the simulation environment relies heavily on concurrent processing. The TraCI Python controller, the SUMO physics engine, and the Streamlit data analytics dashboard run simultaneously, making multi-core processing and fast memory I/O highly beneficial.
+
+| Component | Minimum Specification | Recommended Specification | Engineering Justification |
+| :--- | :--- | :--- | :--- |
+| **Processor (CPU)** | Intel Core i5 / AMD Ryzen 5 (Quad-Core) | Intel Core i7 / AMD Ryzen 7 (8+ Cores) | Multi-threading is highly beneficial for running the SUMO physics engine and the background `attacker.py` heuristic tracking script concurrently without frame drops. |
+| **Memory (RAM)** | 8 GB | 16 GB | 8GB is sufficient for a 100-vehicle grid. 16GB ensures fluid rendering of the Streamlit dashboard while processing large Pandas dataframes (`trajectories.json`) in memory. |
+| **Storage** | 5 GB Free Space (HDD) | 10 GB Free Space (NVMe / SSD) | SSDs drastically reduce file I/O latency, which is critical when `runner.py` exports real-time simulation telemetry and `dashboard.py` parses it for live visualization. |
+| **Graphics (GPU)** | Integrated Graphics | Dedicated GPU (2GB+ VRAM) | Heavy cryptographic/CUDA computing is not required, but adequate graphics processing ensures the SUMO-GUI renders the dense 5x5 grid and dynamic color-coded privacy states smoothly during presentations. |
+| **Platform** | Windows 10 / Ubuntu 20.04 / macOS | Windows 11 / Ubuntu 22.04 | Eclipse SUMO and TraCI libraries are fully cross-platform compatible. Linux or Windows Subsystem for Linux (WSL) is recommended for optimal subprocess execution. |
 
 ###  Software Requirements
 
