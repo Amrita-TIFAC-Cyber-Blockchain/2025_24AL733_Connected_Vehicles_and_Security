@@ -184,17 +184,28 @@ The system operates on a decoupled, closed-loop software architecture. This desi
 ------
 ### Mapping the Project to Relevant Sustainable Development Goals (SDGs)
 
-| SDG   | Alignment  |
-|:---------------|:-----|
+| SDG | Alignment & Contribution |
+| :--- | :--- |
+| **SDG 9: Industry, Innovation, and Infrastructure** | Proposes an innovative, decentralized software architecture for VANETs that operates effectively without the need to build expensive, hardware-heavy Roadside Units (RSUs). |
+| **SDG 11: Sustainable Cities and Communities** | Enhances the safety and security of future smart cities by protecting citizens from unauthorized surveillance and trajectory profiling while maintaining the BSM safety network. |
+| **SDG 16: Peace, Justice, and Strong Institutions** | Establishes a "Conditional Traceability" consent model. Protects individual privacy by default while providing strong institutional tools for lawful vehicle tracing during accidents or legal investigations. |
 
 
 ### Collaboration 
-| Team | Module & Scope | Contribution |
-|:----:|:--------------------------|:-------------|
+| Team Member | Module & Scope Contribution |
+| :--- | :--- |
+| **Aditya Kumar** | M.Tech AEL - Implementation of the TraCI execution engine, spatial-temporal attacker heuristic, and velocity-adaptive privacy algorithms. |
+| **Kalirajan M** | M.Tech AEL - Simulation environment setup, evaluation metric generation, and data visualization dashboard architecture. |
 
 -----
 
 ### References
+1. *A Review of Pseudonym Change Strategies for Location Privacy Preservation Schemes in Vehicular Networks* (2025)
+2. *Cybersecurity and Privacy Protection in VANETs* (2023)
+3. *Anonymity Assurance Using Efficient Pseudonym Consumption in IoV* (2023)
+4. *ADMZ: Adaptive Dynamic Mix Zone Pseudonym Change Strategy for Location Privacy* (2025)
+5. *RFPM: A RSU-Aided Framework for Pseudonym Management to Preserve Location Privacy* (2023)
+6. *A Pseudonym-Based Certificateless Privacy-Preserving Authentication Scheme for VANETs* (2022)
 
 
 
