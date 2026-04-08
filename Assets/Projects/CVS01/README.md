@@ -141,6 +141,16 @@ Vehicle information is not fully shared at all times. Disclosure strictly depend
 
 #### Architecture Diagram
 
+The system operates on a decoupled, closed-loop simulation framework to ensure backend physics integrity and frontend UI stability:
+
+| Component | Module | Function |
+| :--- | :--- | :--- |
+| **The Stage** | `network_gen.py` | Programmatically generates the dense 5x5 urban grid, configures traffic spawn rates, and enforces strict physical realism by disabling simulator "teleportation". |
+| **The Orchestrator** | `runner.py` | The main TraCI execution loop. Acts as the On-Board Unit (OBU), moving cars frame-by-frame, changing GUI colors, and enforcing the pseudonym evasion algorithms. |
+| **The Eavesdropper** | `attacker.py` | A background class acting as the passive observer. Uses $O(1)$ spatial-temporal kinematics to mathematically reconstruct trajectories and profile users. |
+| **The Grader** | `visualizer.py` | Mathematically evaluates the attacker's success. Strictly penalizes the attacker for dropped tracking frames to generate honest tracking metrics. |
+| **The Output Layer** | `dashboard.py` | A decoupled Streamlit web UI that parses JSON artifacts to dynamically render tracking drop-offs and trajectory maps. |
+
 #### Usecases
 
 #### Deliverables
