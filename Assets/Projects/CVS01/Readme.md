@@ -14,11 +14,11 @@ Existing privacy-preserving approaches, including RSU-assisted pseudonym coordin
 At the same time, connected vehicle systems must preserve accountability. Vehicles involved in accidents or legal incidents must remain traceable to authorized authorities under legitimate conditions. Many existing approaches do not clearly illustrate how privacy preservation and lawful traceability can coexist in a simple and transparent manner.
 Therefore, the problem addressed in this work is:
 How can unauthorized passive tracking during collision detection message broadcasting be mitigated using a lightweight pseudonym-change mechanism, while preserving conditional traceability for authorized authorities and without relying on infrastructure-heavy or cryptography-intensive solutions.
+
    
 -----
 
 ### Hardware Requirements
-
 The proposed mitigation operates as an edge-computed software simulation. While no specialized roadside hardware (RSUs) or automotive On-Board Units (OBUs) are physically required to execute the testbed, the simulation environment relies heavily on concurrent processing. The TraCI Python controller, the SUMO physics engine, and the Streamlit data analytics dashboard run simultaneously, making multi-core processing and fast memory I/O highly beneficial.
 
 | Component | Minimum Specification | Recommended Specification | Engineering Justification |
@@ -52,7 +52,8 @@ The project utilizes a dual-layered visualization approach to demonstrate both r
 
 1. Real-Time Physical Simulation (SUMO & TraCI GUI)During the live execution of runner.py, the simulation provides immediate visual feedback of the privacy states of all vehicles on the 5x5 urban grid:Dynamic Color-Coding: Vehicles dynamically change colors via TraCI commands to represent their current vulnerability:Green (Default): The vehicle is broadcasting normally and is highly vulnerable to spatial-temporal tracking.Yellow (Pending Swap): The vehicle has initiated a pseudonym change but is actively searching for $\ge 2$ neighbors to form a Mix-Zone.Red (Radio Silence): The vehicle has successfully swapped its identifier and temporarily disabled BSM broadcasts to evade the attacker's prediction radius.On-Screen Display (OSD): A live overlay renders the active Scenario Name, Mitigation Logic, and Color Legend directly onto the simulation map.
   
-2. Interactive Analytical Dashboard (dashboard.py)To prove the efficacy of the algorithms, a decoupled Streamlit web application parses the generated JSON artifacts (metrics.json and trajectories.json) into interactive academic visualizations:Quantitative Bar Charts: Dynamically compares the Tracking Success Rate (%) and Linkability (%) across all four scenarios (Baseline, Naive, Smart, Hybrid), visually proving the degradation of the attacker's capabilities from ~100% down to $<20\%$.Spatial Trajectory Overlays (The Visual Proof): Uses Matplotlib to plot the 2D $X, Y$ coordinate path of a sample vehicle. It overlays the Ground Truth Path (Solid Blue Line) against the Attacker's Reconstructed Track (Dashed Red Line).This interactive map proves exactly where the Hybrid evasion algorithm mathematically breaks the spatial-temporal link, forcing the red line to drop the blue line.
+2. Interactive Analytical Dashboard (dashboard.py)To prove the efficacy of the algorithms, a decoupled Streamlit web application parses the generated JSON artifacts (metrics.json and trajectories.json) into interactive academic visualizations:Quantitative Bar Charts: Dynamically compares the Tracking Success Rate (%) and Linkability (%) across all four scenarios (Baseline, Naive, Smart, Hybrid), visually proving the degradation of the attacker's capabilities from ~100% down to <20%.Spatial Trajectory Overlays (The Visual Proof): Uses Matplotlib to plot the 2D X, Y coordinate path of a sample vehicle. It overlays the Ground Truth Path (Solid Blue Line) against the Attacker's Reconstructed Track (Dashed Red Line).This interactive map proves exactly where the Hybrid evasion algorithm mathematically breaks the spatial-temporal link, forcing the red line to drop the blue line.
+
 
 -----
 ### [Literature Survey](./R1/README.md) 
