@@ -141,15 +141,20 @@ Vehicle information is not fully shared at all times. Disclosure strictly depend
 
 #### Architecture Diagram
 
-The system operates on a decoupled, closed-loop simulation framework to ensure backend physics integrity and frontend UI stability:
+### System Architecture Diagram
 
-| Component | Module | Function |
+The system operates on a layered, closed-loop software architecture. It strictly decouples the heavy microscopic physics simulation (backend) from the interactive data analytics environment (frontend) using a JSON data bridge.
+
+| Architectural Layer | Component / File | Description & Function |
 | :--- | :--- | :--- |
-| **The Stage** | `network_gen.py` | Programmatically generates the dense 5x5 urban grid, configures traffic spawn rates, and enforces strict physical realism by disabling simulator "teleportation". |
-| **The Orchestrator** | `runner.py` | The main TraCI execution loop. Acts as the On-Board Unit (OBU), moving cars frame-by-frame, changing GUI colors, and enforcing the pseudonym evasion algorithms. |
-| **The Eavesdropper** | `attacker.py` | A background class acting as the passive observer. Uses $O(1)$ spatial-temporal kinematics to mathematically reconstruct trajectories and profile users. |
-| **The Grader** | `visualizer.py` | Mathematically evaluates the attacker's success. Strictly penalizes the attacker for dropped tracking frames to generate honest tracking metrics. |
-| **The Output Layer** | `dashboard.py` | A decoupled Streamlit web UI that parses JSON artifacts to dynamically render tracking drop-offs and trajectory maps. |
+| **1. Traffic Simulation Base** | **Eclipse SUMO** | The foundational physics engine. It handles the continuous microscopic modeling of the road network, vehicle acceleration, and spatial boundaries. |
+| **2. Middleware Interface** | **TraCI API** | The TCP-based Traffic Control Interface. It acts as the critical bridge, allowing the Python environment to extract live telemetry and inject vehicle commands into SUMO frame-by-frame. |
+| **3. Core Execution Engine** | `runner.py` | The central orchestrator. It acts as the collective On-Board Unit (OBU) logic, evaluating neighbor densities and executing the pseudonym evasion algorithms (Mix-Zones & Silence). |
+| **4. Threat Environment** | `attacker.py` | The passive adversary model. It runs concurrently, sniffing unencrypted broadcasts and utilizing an $O(1)$ spatial-temporal heuristic to reconstruct trajectories. |
+| **5. Empirical Grader** | `visualizer.py` | The independent evaluation engine. It strictly compares the attacker's reconstructed tracks against the absolute ground truth to calculate the Tracking Success Rate. |
+| **6. Data Exchange Bridge** | **JSON Artifacts** | `metrics.json` and `trajectories.json`. These static files ensure fast, non-blocking I/O exchange, preventing the frontend UI from crashing the backend physics engine. |
+| **7. Presentation UI** | `dashboard.py` (Streamlit) | The frontend web application. It parses the JSON artifacts to dynamically render comparative tracking drop-offs and 2D spatial trajectory maps. |
+
 
 <img width="1054" height="565" alt="image" src="https://github.com/user-attachments/assets/27ed6283-5509-4418-ad92-f77587f173d8" />
 
