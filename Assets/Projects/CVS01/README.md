@@ -151,6 +151,9 @@ The system operates on a decoupled, closed-loop simulation framework to ensure b
 | **The Grader** | `visualizer.py` | Mathematically evaluates the attacker's success. Strictly penalizes the attacker for dropped tracking frames to generate honest tracking metrics. |
 | **The Output Layer** | `dashboard.py` | A decoupled Streamlit web UI that parses JSON artifacts to dynamically render tracking drop-offs and trajectory maps. |
 
+<img width="1054" height="565" alt="image" src="https://github.com/user-attachments/assets/27ed6283-5509-4418-ad92-f77587f173d8" />
+
+
 #### Usecases
 
 #### Deliverables
