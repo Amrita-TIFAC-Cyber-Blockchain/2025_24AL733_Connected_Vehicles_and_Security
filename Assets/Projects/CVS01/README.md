@@ -1,215 +1,116 @@
-# 24AL733 - Connected Vehicles and Security 
+# SD-TSN In-Vehicle Network Simulation
 
-## CVS01 - Privacy Concerns and Mitigation in Connected Vehicles
+This project builds a real-time software simulation of a **Software-Defined Time-Sensitive Network (SD-TSN)** designed for modern, mission-critical in-vehicle zonal architectures.
 
-![](https://img.shields.io/badge/Member--gold) ![](https://img.shields.io/badge/Member--gold) <br/> 
-![](https://img.shields.io/badge/SDG--darkgreen) ![](https://img.shields.io/badge/SDG--darkgreen) <br/> 
+It implements a Centralized Network Configuration (CNC) controller that calculates routing and Time-Aware Shaper (TAS) schedules (IEEE 802.1Qbv), and uses a discrete-event simulation to validate the strictly deterministic transmission of automotive traffic.
 
-![](https://img.shields.io/badge/Reviewed--brown) <br/>
+---
 
-### Problem Statement
-Connected vehicles broadcast periodic safety messages to enable collision detection and avoidance. These messages contain essential parameters such as vehicle location, speed, direction, and timestamp, allowing nearby vehicles to compute relative distance and predict potential crash risks in real time.
-While continuous broadcasting improves road safety, it also introduces a significant privacy risk. Because safety messages are transmitted openly over wireless channels, an unauthorized passive observer can collect and correlate successive identifiers and location updates over time. Even when temporary identifiers (pseudonyms) are used, if they remain static for extended durations, an attacker can reconstruct vehicle trajectories and infer travel behavior without the user’s knowledge or consent.
-Existing privacy-preserving approaches, including RSU-assisted pseudonym coordination, dynamic mix-zone strategies, and cryptographic authentication frameworks, aim to reduce tracking risks. However, these solutions often depend on roadside infrastructure, complex coordination mechanisms, or computationally intensive cryptographic operations, making them difficult to deploy efficiently in resource-constrained real-world environments.
-At the same time, connected vehicle systems must preserve accountability. Vehicles involved in accidents or legal incidents must remain traceable to authorized authorities under legitimate conditions. Many existing approaches do not clearly illustrate how privacy preservation and lawful traceability can coexist in a simple and transparent manner.
-Therefore, the problem addressed in this work is:
-How can unauthorized passive tracking during collision detection message broadcasting be mitigated using a lightweight pseudonym-change mechanism, while preserving conditional traceability for authorized authorities and without relying on infrastructure-heavy or cryptography-intensive solutions.
-   
------
+## Project Context and Goal
 
-### Hardware Requirements
+Modern automotive architectures require a mix of best-effort background traffic (e.g., infotainment, diagnostics) and hard-real-time mission-critical data (e.g., LiDAR, steering control). This project simulates an SD-TSN environment where a mission-critical flow maintains a strict **<= 500µs** end-to-end latency boundary, completely unaffected by massive bursts of lower-priority background interference.
 
-The proposed mitigation operates as an edge-computed software simulation. While no specialized roadside hardware (RSUs) or automotive On-Board Units (OBUs) are physically required to execute the testbed, the simulation environment relies heavily on concurrent processing. The TraCI Python controller, the SUMO physics engine, and the Streamlit data analytics dashboard run simultaneously, making multi-core processing and fast memory I/O highly beneficial.
+### Tech Stack & Environment
 
-| Component | Minimum Specification | Recommended Specification | Engineering Justification |
-| :--- | :--- | :--- | :--- |
-| **Processor (CPU)** | Intel Core i5 / AMD Ryzen 5 (Quad-Core) | Intel Core i7 / AMD Ryzen 7 (8+ Cores) | Multi-threading is highly beneficial for running the SUMO physics engine and the background `attacker.py` heuristic tracking script concurrently without frame drops. |
-| **Memory (RAM)** | 8 GB | 16 GB | 8GB is sufficient for a 100-vehicle grid. 16GB ensures fluid rendering of the Streamlit dashboard while processing large Pandas dataframes (`trajectories.json`) in memory. |
-| **Storage** | 5 GB Free Space (HDD) | 10 GB Free Space (NVMe / SSD) | SSDs drastically reduce file I/O latency, which is critical when `runner.py` exports real-time simulation telemetry and `dashboard.py` parses it for live visualization. |
-| **Graphics (GPU)** | Integrated Graphics | Dedicated GPU (2GB+ VRAM) | Heavy cryptographic/CUDA computing is not required, but adequate graphics processing ensures the SUMO-GUI renders the dense 5x5 grid and dynamic color-coded privacy states smoothly during presentations. |
-| **Platform** | Windows 10 / Ubuntu 20.04 / macOS | Windows 11 / Ubuntu 22.04 | Eclipse SUMO and TraCI libraries are fully cross-platform compatible. Linux or Windows Subsystem for Linux (WSL) is recommended for optimal subprocess execution. |
+*   **Language:** Python 3.10+
+*   **Network Topology:** `networkx`
+*   **ILP Solver:** `PuLP` (Provides seamless automated TAS schedule execution)
+*   **Data Plane Simulation:** `SimPy` (Discrete-event network simulation)
+*   **Interactive Dashboard:** `Streamlit`, `Plotly`, `pandas`
 
------
+---
 
-### Software Requirements
+## Core Simulation Architecture
 
-The project relies on a decoupled software architecture, separating the heavy physical simulation backend from the interactive data analytics frontend.
+The backend engine validates the determinism of the network using four key components, all of which are thoroughly commented in the source code to explain the underlying math and simulation logic:
 
-| Component | Technology / Library | Engineering Justification |
-| :--- | :--- | :--- |
-| **Core Physics Engine** | **Eclipse SUMO** (Simulation of Urban MObility) | Provides microscopic, continuous physical traffic modeling. Enforces real-world kinematic constraints (acceleration, spatial boundaries) required to test the attacker's spatial-temporal heuristic. |
-| **Control Interface** | **TraCI** (Traffic Control Interface) | The essential TCP-based client/server architecture that bridges the Python execution engine (`runner.py`) with the SUMO backend, allowing frame-by-frame manipulation of vehicle colors and BSM broadcasts. |
-| **Programming Environment** | **Python 3.8+** | Serves as the primary execution environment for the On-Board Unit (OBU) logic, the adversary model (`attacker.py`), and the strict empirical grader (`visualizer.py`). |
-| **Data Analytics & UI** | **Streamlit**, **Matplotlib**, & **Pandas** | `Streamlit` provides a decoupled, interactive web server for the presentation layer. `Matplotlib` mathematically plots the 2D geometric tracking arrays and trajectory overlays. |
-| **Data Handling** | **JSON** (`metrics.json`, `trajectories.json`) | Replaces traditional CSV logging with lightweight JSON artifacts. This ensures fast, non-blocking I/O exchange between the heavy simulation backend and the frontend dashboard. |
-| **Development Tools** | **VS Code** / PyCharm | Standard IDEs for managing the repository, executing terminal commands, and debugging the TraCI step-loops. |
+### 1. Data Models & Topology (`models.py`, `cuc.py`)
+*   **Topology:** A directional NetworkX graph representing a zonal automotive architecture featuring Endpoints (E1, E2, E3), Switches (SW1, SW2, SW3, SW4), and a Gateway (GW). All physical links operate at 100 Mbps.
+*   **Flow Configuration (CUC):** A mock Centralized User Configuration module generates two core test flows:
+    *   **Flow 1 (Time-Sensitive):** E1 -> SW1 -> SW3 -> GW -> E3. Priority 7, 50ms period, 1024 Byte payload, strict 500µs max latency constraint.
+    *   **Flow 2 (Interference):** E2 -> SW2 -> SW4 -> GW -> E3. Priority 0, 10ms period, variable payload (3,200 Bytes up to 102,400 Bytes).
 
------
-### Visualization of results
+### 2. CNC Routing & ILP Scheduler (`routing.py`, `scheduler.py`)
+*   **Routing:** Automatically calculates the shortest-path critical path for all generated flows.
+*   **TAS Scheduling (PuLP):** An Integer Linear Programming (ILP) model calculates precision transmission offsets for every switch egress port. The solver strictly enforces:
+    *   **Transmission Start Constraints:** Flows must transmit within their required periods.
+    *   **Flow Isolation Constraints:** Prevents simultaneous egress port buffer occupation.
+    *   **Link Resource Constraints:** Ensures no time slots on shared links overlap. To protect Flow 1 from MTU-sized (1500B) fragments of Flow 2, the scheduler dynamically calculates a **121.76 µs Guard Band**.
+    *   **Latency Constraints:** Hard limits ensuring Flow 1 never exceeds 500µs.
 
+### 3. Gate Control List (GCL) Generation (`gcl.py`)
+*   Calculates the network-wide hyper-period (50,000 µs based on the LCM of the flows).
+*   Generates exact open/close timings for Priority 7 and Priority 0 queues across all switches to physically enforce the ILP constraints.
+*   Outputs the finalized switch schedules to a structured XML (`network_config.xml`) mimicking a YANG model. During the Streamlit Live Demo Phase 3, this file is explicitly overwritten to allow real-time inspection of the hardware rules.
 
-The project utilizes a dual-layered visualization approach to demonstrate both real-time algorithmic execution and post-simulation empirical metrics.
+### 4. SimPy Discrete-Event Simulation (`simulator.py`, `run_simulation.py`)
+*   A custom SimPy "Physics Engine" modeling the physical 100 Mbps links, switch forwarding delays, and strict Priority queuing (enforcing the calculated GCL timings).
+*   Runs automated test suites featuring consecutive transmissions of Flow 1 against escalating Flow 2 payloads.
+*   **Validation:** The simulation proves the architecture's determinism. Flow 1 maintains a strict, unwavering latency (0.00 µs jitter) regardless of whether Flow 2 transmits 3.2KB or 102.4KB of interference. Outputs results to `simulation_report.json`.
 
-1. Real-Time Physical Simulation (SUMO & TraCI GUI)During the live execution of runner.py, the simulation provides immediate visual feedback of the privacy states of all vehicles on the 5x5 urban grid:Dynamic Color-Coding: Vehicles dynamically change colors via TraCI commands to represent their current vulnerability:Green (Default): The vehicle is broadcasting normally and is highly vulnerable to spatial-temporal tracking.Yellow (Pending Swap): The vehicle has initiated a pseudonym change but is actively searching for $\ge 2$ neighbors to form a Mix-Zone.Red (Radio Silence): The vehicle has successfully swapped its identifier and temporarily disabled BSM broadcasts to evade the attacker's prediction radius.On-Screen Display (OSD): A live overlay renders the active Scenario Name, Mitigation Logic, and Color Legend directly onto the simulation map.
-  
-2. Interactive Analytical Dashboard (dashboard.py)To prove the efficacy of the algorithms, a decoupled Streamlit web application parses the generated JSON artifacts (metrics.json and trajectories.json) into interactive academic visualizations:Quantitative Bar Charts: Dynamically compares the Tracking Success Rate (%) and Linkability (%) across all four scenarios (Baseline, Naive, Smart, Hybrid), visually proving the degradation of the attacker's capabilities from ~100% down to $<20\%$.Spatial Trajectory Overlays (The Visual Proof): Uses Matplotlib to plot the 2D $X, Y$ coordinate path of a sample vehicle. It overlays the Ground Truth Path (Solid Blue Line) against the Attacker's Reconstructed Track (Dashed Red Line).This interactive map proves exactly where the Hybrid evasion algorithm mathematically breaks the spatial-temporal link, forcing the red line to drop the blue line.
+---
 
------
-### [Literature Survey](./R1/README.md) 
-Paper :Anonymity Assurance Using Efficient Pseudonym Consumption in Internet of Vehicles – Sensors 2023
-Method Used:
-Proposes Efficient Pseudonym Consumption Protocol (EPCP). Vehicles share BSMs only with nearby vehicles moving in similar direction and estimated location. Pseudonym change alerts are optimized to reduce unnecessary consumption.
-Results:
-Simulations show reduced pseudonym consumption, lower BSM loss rate, and improved traceability resistance compared to baseline schemes.
-Limitation:
-Requires estimation of vehicle trajectory and context-based coordination. Focuses on pseudonym efficiency rather than demonstrating real tracking attack reconstruction.
-Gap Identified:
-Does not experimentally show how passive tracking occurs or quantify tracking success before/after pseudonym change in a lightweight scenario.
+## Output Artifacts
 
-Paper: RFPM: A RSU-aided framework for pseudonym management to preserve location privacy in IoV – Security & Privacy 
-Method Used:
-RSU-assisted PKI-based pseudonym management framework. RSUs collect, shuffle, and redistribute pseudonyms. Evaluated in PREXT simulator using metrics such as traceability, anonymity set, confusion matrix, entropy.
-Results:
-Shows improved privacy metrics compared to existing mix-zone and mix-context schemes. Provides formal privacy gain analysis.
-Limitation:
-Relies heavily on RSU infrastructure and VPKI coordination. Infrastructure cost and scalability not fully addressed.
-Gap Identified:
-Does not provide infrastructure-light or standalone vehicle-based mitigation suitable for simplified deployments.
+Running the core simulation generates two primary artifacts automatically saved to the repository root:
 
-Paper:Cybersecurity and Privacy Protection in VANETs – Advances in Internet of Things
-Method Used:
-Survey-based analysis of pseudonymization schemes (DLP, K-anonymity, Mix-Zone, AMOEBA, RSP). Emphasizes regulatory compliance (GDPR, LGPD) and privacy-by-design approaches.
-Results:
-Conceptual comparison of privacy schemes and regulatory implications. Highlights legal necessity of pseudonymization.
-Limitation:
-No simulation-based evaluation. No attack modeling. Focus is regulatory and conceptual rather than implementation.
-Gap Identified:
-Lacks experimental validation of tracking attacks and mitigation performance.
+*   **`network_config.xml`**: A fully structured XML file mimicking a YANG data model. It contains the exact Layer 2 routing lookup tables and the Time-Aware Shaper (TAS) Gate Control List (GCL) transmission schedules for every egress port on every switch and gateway in the network.
+*   **`simulation_report.json`**: A detailed data dump validating the determinism of the network. It records the payload sizes, the number of delivered packets, and the precise minimum, maximum, and average latencies for both Priority 7 and Priority 0 flows across the test suite.
 
-Paper:ADMZ – Adaptive Dynamic Mix-Zone Strategy (2023)
-Method Used:
-Dynamic mix-zone creation based on vehicle density and mobility patterns. Vehicles change pseudonyms inside adaptive zones.
-Results:
-Improves anonymity set size and reduces semantic linking probability under dense traffic.
-Limitation:
-Effective primarily in high-density areas. Performance degrades in sparse traffic. Requires coordination mechanism.
-Gap Identified:
-Does not address lightweight pseudonym change in low infrastructure or sparse environments.
+---
 
-Paper:A Pseudonym-Based Certificateless Privacy-Preserving Authentication Scheme for VANETs
-Method Used:
-Certificateless cryptographic authentication scheme to ensure anonymity and conditional traceability. Eliminates certificate management overhead of traditional PKI
-Results:
-Reduces computational overhead compared to certificate-based schemes while preserving message authenticity.
-Limitation:
-Focuses on authentication security rather than tracking attack mitigation analysis. Still cryptography-intensive.
-Gap Identified:
-Does not experimentally quantify passive tracking resistance via pseudonym strategy.
+## Interactive Digital Twin Dashboard (`app.py`)
 
-Paper: A Review of Pseudonym Change Strategies for Location Privacy
-Method Used:
-Systematic classification of mix-zone and mix-context pseudonym change techniques. Discusses syntactic vs semantic linking attacks.
-Results:
-Identifies strengths and weaknesses of silent period, cooperative change, density-based, and infrastructure-based strategies.
-Limitation:
-Review paper – no new framework or empirical evaluation.
-Gap Identified:
-Highlights absence of universally accepted lightweight, practical pseudonym change mechanism with measurable tracking mitigation.
+A professional, interactive dashboard built with Streamlit serves as the primary presentation layer. It transforms the raw backend data into a highly visual, phase-based engineering "Digital Twin" presentation, fully driven by live backend computations.
 
-------
+### Dashboard Features
 
-### Proposed Solution
-Our proposed solution is an empirical synthesis of Dynamic Mix-Zones and Velocity-Adaptive Silent Periods, optimized for real-world physics while intentionally avoiding the latency of heavy cryptography and the high costs of Roadside Units (RSUs).The mitigation progressively evolves through four tested scenarios:
+*   **Sequential Live Demo Logic:** A "▶️ Start Live Demo" button triggers a fully animated state machine that guides the audience through the critical engineering phases:
+    1.  **🟢 Digital Twin Construction (Layer 1 & 2):** Dynamically animates the topology instantiation, physical link connections, and hop-by-hop L2 routing paths.
+    2.  **🟡 Optimization (Layer 3 ILP):** Mathematically solves the Time-Aware Shaper (TAS) scheduling constraints. Features a dynamic **"X-Ray" Transparency Checklist** that proves Flow Isolation, Guard Band, and Boundary constraints as they are solved by PuLP.
+    3.  **🟠 Configuration & SimPy Init:** Compiles the YANG-style XML, deploys the Gate Control Lists to the switches, and initializes the discrete-event clock.
+    4.  **🔴 Interactive Validation Scenarios:** Provides tabbed views for advanced testing:
+        *   **Scenario A (A/B Testing):** Compare strict priority (TAS disabled) against shaped traffic (TAS enabled) and watch the dynamic queue progress bars fill as the SimPy clock ticks.
+        *   **Scenario B (Security Attack):** Simulate a rogue node injecting spoofed Priority 7 packets, demonstrating the CNC's ability to isolate unauthorized ingress and drop packets.
+    5.  **🟣 Microsecond Slow-Motion:** A deep-dive interactive mode allowing users to step forward (+10 µs increments) through a single network cycle. Watch physical MTU fragmentation cause Priority 0 queues to back up against the Guard Band, while the Priority 7 payload sails through.
 
-V1 - Baseline (No Privacy): Static identifiers are broadcast continuously. (Yields ~100% Attacker Tracking).
+### Dynamic Backend Integration & Controls
 
-V2 - Naive Approach (Blind Swaps): Time-based swaps every 3 seconds. The attacker easily predicts the trajectory using a spatial-temporal heuristic (Distance <= Speed * 1.5 + 10.0).
+The dashboard is completely interactive and no longer hardcoded. All visuals, mathematical models, and network metrics are dynamically rebuilt from scratch by the `scheduler.py` and `simulator.py` engines whenever you change a setting.
 
-V3 - Smart Mitigation (Mix-Zones + Silence): Vehicles only swap pseudonyms when near >= 2 neighbors, followed by a random 3–6s period of radio silence to break the attacker's prediction cone.
+Using the **Simulation Settings Sidebar**, users can adjust:
+*   **Expand Network (Add SW5 & E4):** Watch the zonal architecture dynamically extend. `NetworkX` instantly draws the new topology, and Dijkstra's algorithm immediately recalculates the Layer 2 forwarding routes to accommodate the new endpoints.
+*   **Physical Link Speed:** Toggle between Legacy Fast Ethernet (`100 Mbps`) and Gigabit Ethernet (`1000 Mbps`). This upgrades every single edge in the NetworkX graph (Endpoints, Switches, Gateways). Watch the math solver instantly shrink the required Guard Band from `121.76 µs` down to `12.17 µs` because Gigabit hardware clears the 1500-Byte MTU interference ten times faster!
+*   **Critical Payload Size (Bytes):** Slide from `128B` up to `1500B` to see the ILP dynamically stretch the required Priority 7 transmission window (`t_trans`).
+*   **Interference Payload Max (Bytes):** Slide from `1,000B` up to `150,000B` to define the severity of the background traffic stress test in Phase 4.
+*   **Simulation Window (ms):** Increase the total runtime of the Scenario B Cyber Attack up to `1,000 ms`. The longer the simulation runs, the more spoofed Priority 7 packets the CNC controller will identify and drop live on screen!
 
-V4 - Hybrid Mitigation (The Ultimate Solution): Introduces a Cooperative Handshake where groups of vehicles swap pseudonyms synchronously at the exact same simulation step. This is paired with Velocity-Adaptive Silence (Silence = 1000.0 / max(0.1, Speed)), dynamically ensuring fast vehicles return to the safety network quickly while slow vehicles take the time needed to safely escape the tracking radius.
+When "Start Live Demo" is clicked, `app.py` recalculates the precise Guard Band requirements using PuLP, regenerates the GCL, and executes the physical layer SimPy validation in real-time based strictly on these selected parameters.
 
-Consent, Selective Disclosure & Information Sharing Model
+---
 
-Vehicle information is not fully shared at all times. Disclosure strictly depends on context, necessity, and consent:
-| Scenario | Information Shared | Accessible By |
-| :--- | :--- | :--- |
-| **Normal Driving** | Temporary pseudonym + basic safety data (Location, Speed, Heading) | Public / Nearby Vehicles |
-| **Traffic Safety Event** | Pseudonym + real-time position & speed | Public / Nearby Vehicles |
-| **Emergency / Legal Case** | Authorized identity resolution via `trusted_backend` | Law Enforcement / Traffic Authority |
-| **Vehicle Theft Investigation** | Full traceability via backend authority | Law Enforcement / Traffic Authority |
+## Installation & Usage
 
+### 1. Prerequisites
 
-### System Architecture Diagram
+Ensure you have Python 3.10+ installed. Install the required dependencies:
 
-The system operates on a decoupled, closed-loop software architecture. This design strictly separates the heavy microscopic physics simulation (backend) from the interactive data analytics environment (frontend) to ensure system stability.
+```bash
+pip install networkx pulp simpy streamlit plotly pandas matplotlib
+```
 
-| Architectural Block | Module / Component | Description & Function |
-| :--- | :--- | :--- |
-| **1. Simulation Backend** | `network_gen.py` & **SUMO** | Generates the dense 5x5 urban grid, configures traffic spawn rates, and handles continuous microscopic physical traffic modeling. |
-| **2. Middleware Interface** | **TraCI API** | The TCP-based bridge connecting the simulator to Python. It extracts live vehicle telemetry and injects color-coding and routing commands frame-by-frame. |
-| **3. Core Execution Engine** | `runner.py` | The central orchestrator acting as the On-Board Unit (OBU) logic. It evaluates neighbor densities and executes the pseudonym evasion algorithms (Mix-Zones & Silence). |
-| **4. Adversary Model** | `attacker.py` | The passive observer running concurrently. It sniffs unencrypted broadcasts and utilizes an $O(1)$ spatial-temporal heuristic to mathematically reconstruct trajectories. |
-| **5. Evaluation Engine** | `visualizer.py` | The independent grader. It mathematically evaluates the attacker's success, strictly penalizing dropped tracking frames to generate honest metrics. |
-| **6. Data Exchange Layer** | `metrics.json` & `trajectories.json` | Static data artifacts that act as the bridge between backend and frontend, ensuring fast, non-blocking I/O exchange without crashing the physics engine. |
-| **7. Interactive Presentation** | `dashboard.py` (Streamlit) | The decoupled frontend web UI. It parses the JSON artifacts to dynamically render comparative tracking drop-off charts and 2D trajectory overlays. |
+### 2. Run the Backend Simulation
 
+To run the discrete-event network simulation and generate the `network_config.xml` and `simulation_report.json` files:
 
-<img width="1054" height="565" alt="image" src="https://github.com/user-attachments/assets/27ed6283-5509-4418-ad92-f77587f173d8" />
+```bash
+python3 run_simulation.py
+```
 
+### 3. Launch the Interactive Dashboard
 
-#### Usecases
+To launch the real-time presentation dashboard in your browser:
 
-#### 1. Privacy Risk Scenario (The Threat)
-* **Action:** An unauthorized passive observer sniffs unencrypted BSM broadcasts over time.
-* **Impact:** Because vehicles use static or poorly obfuscated pseudonyms, the observer utilizes a physics-based search cone to link the identifiers together, reconstructing the driver's full commute (e.g., Home to Workplace) without ever breaking cryptography.
-
-#### 2. Expected Behavior with Mitigation (Normal Operation)
-* **Action:** Vehicles autonomously form Mix-Zones at intersections and execute synchronized, velocity-adaptive pseudonym swaps.
-* **Impact:** The observer's spatial-temporal heuristic is mathematically shattered. Public tracking drops to <20%. At the same time, nearby vehicles continue to receive necessary collision-avoidance data seamlessly.
-
-#### 3. Authorized Authority Resolution (Accountability)
-* **Action:** A traffic incident occurs, requiring the identity of a specific vehicle involved in a hit-and-run.
-* **Impact:** Law enforcement queries the `trusted_backend` ledger. The system successfully maps the localized, time-bound temporary pseudonym back to the vehicle's permanent VIN/Owner identity.
-
-#### Deliverables
-
-1. **`network_gen.py`**: Automated infrastructure and traffic generator script.
-2. **`runner.py`**: The core execution engine and TraCI step-controller.
-3. **`attacker.py`**: The spatial-temporal adversary heuristic model.
-4. **`visualizer.py`**: Empirical metric calculator (Tracking Success & Linkability).
-5. **`dashboard.py`**: Interactive Streamlit presentation application.
-6. **Simulation Artifacts**: `metrics.json` and `trajectories.json` generated dynamically to prove tracking degradation.
-7. **Presentation Decks**: Academic slide decks detailing the engineering logic, mathematical formulas, and literature gap analysis.
-------
-### Mapping the Project to Relevant Sustainable Development Goals (SDGs)
-
-| SDG | Alignment & Contribution |
-| :--- | :--- |
-| **SDG 9: Industry, Innovation, and Infrastructure** | Proposes an innovative, decentralized software architecture for VANETs that operates effectively without the need to build expensive, hardware-heavy Roadside Units (RSUs). |
-| **SDG 11: Sustainable Cities and Communities** | Enhances the safety and security of future smart cities by protecting citizens from unauthorized surveillance and trajectory profiling while maintaining the BSM safety network. |
-| **SDG 16: Peace, Justice, and Strong Institutions** | Establishes a "Conditional Traceability" consent model. Protects individual privacy by default while providing strong institutional tools for lawful vehicle tracing during accidents or legal investigations. |
-
-
-### Collaboration 
-| Team Member | Module & Scope Contribution |
-| :--- | :--- |
-| **Aditya Kumar** | M.Tech AEL - Implementation of the TraCI execution engine, spatial-temporal attacker heuristic, velocity-adaptive privacy algorithm and data visualization dashboard architectures. |
-| **Kalirajan M** | M.Tech AEL - Simulation environment setup and evaluation metric generation |
-
------
-
-### References
-1. *A Review of Pseudonym Change Strategies for Location Privacy Preservation Schemes in Vehicular Networks* (2025)
-2. *Cybersecurity and Privacy Protection in VANETs* (2023)
-3. *Anonymity Assurance Using Efficient Pseudonym Consumption in IoV* (2023)
-4. *ADMZ: Adaptive Dynamic Mix Zone Pseudonym Change Strategy for Location Privacy* (2025)
-5. *RFPM: A RSU-Aided Framework for Pseudonym Management to Preserve Location Privacy* (2023)
-6. *A Pseudonym-Based Certificateless Privacy-Preserving Authentication Scheme for VANETs* (2022)
-
-
-
-
-
-
-
+```bash
+streamlit run app.py
+```

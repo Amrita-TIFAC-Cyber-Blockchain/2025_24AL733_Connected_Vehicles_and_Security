@@ -1,0 +1,35 @@
+### Step 2: Set Up a Python Virtual Environment
+It is best practice to run this in a clean virtual environment so the dependencies do not conflict with your other projects.
+
+1. Create a new virtual environment named `venv`:
+   ```bash
+   python -m venv venv
+   ```
+2. Activate the virtual environment:
+   ```bash
+   venv\Scripts\activate
+   ```
+   *(You should now see `(venv)` at the beginning of your terminal prompt).*
+
+### Step 3: Install the Dependencies
+Based on Jules's summary, the simulation relies on three specific external libraries. Install them using pip:
+
+```bash
+pip install networkx pulp simpy streamlit plotly pandas
+```
+* **`networkx`**: Builds the directed graph topology.
+* **`pulp`**: Solves the Integer Linear Programming (ILP) math to calculate the TAS offsets.
+* **`simpy`**: Runs the discrete-event simulation for packet routing and gate timings.
+
+### Step 4: Run the Simulation
+Looking at the file structure in your screenshot, `run_simulation.py` is the main entry point that ties the CUC, routing, scheduler, and simulator together.
+
+1. Execute the script:
+   ```bash
+   python run_simulation.py
+
+pip install streamlit plotly networkx pandas
+3.  **Launch the dashboard:**
+```bash
+streamlit run app.py
+4.  **Full Screen:** Press `F` in the Streamlit app to enter full-screen mode for a cleaner look.
