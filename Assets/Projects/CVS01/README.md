@@ -29,7 +29,7 @@ The proposed mitigation operates as an edge-computed software simulation. While 
 | **Graphics (GPU)** | Integrated Graphics | Dedicated GPU (2GB+ VRAM) | Heavy cryptographic/CUDA computing is not required, but adequate graphics processing ensures the SUMO-GUI renders the dense 5x5 grid and dynamic color-coded privacy states smoothly during presentations. |
 | **Platform** | Windows 10 / Ubuntu 20.04 / macOS | Windows 11 / Ubuntu 22.04 | Eclipse SUMO and TraCI libraries are fully cross-platform compatible. Linux or Windows Subsystem for Linux (WSL) is recommended for optimal subprocess execution. |
 
-###  Software Requirements
+-----
 
 ### Software Requirements
 
@@ -44,6 +44,7 @@ The project relies on a decoupled software architecture, separating the heavy ph
 | **Data Handling** | **JSON** (`metrics.json`, `trajectories.json`) | Replaces traditional CSV logging with lightweight JSON artifacts. This ensures fast, non-blocking I/O exchange between the heavy simulation backend and the frontend dashboard. |
 | **Development Tools** | **VS Code** / PyCharm | Standard IDEs for managing the repository, executing terminal commands, and debugging the TraCI step-loops. |
 
+-----
 Visualization of results
 -----
 ### [Literature Survey](./R1/README.md) 
