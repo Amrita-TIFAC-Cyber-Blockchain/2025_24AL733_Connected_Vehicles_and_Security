@@ -166,7 +166,7 @@ The system operates on a decoupled, closed-loop software architecture. This desi
 
 #### 2. Expected Behavior with Mitigation (Normal Operation)
 * **Action:** Vehicles autonomously form Mix-Zones at intersections and execute synchronized, velocity-adaptive pseudonym swaps.
-* **Impact:** The observer's spatial-temporal heuristic is mathematically shattered. Public tracking drops to $<20\%$. At the same time, nearby vehicles continue to receive necessary collision-avoidance data seamlessly.
+* **Impact:** The observer's spatial-temporal heuristic is mathematically shattered. Public tracking drops to <20%. At the same time, nearby vehicles continue to receive necessary collision-avoidance data seamlessly.
 
 #### 3. Authorized Authority Resolution (Accountability)
 * **Action:** A traffic incident occurs, requiring the identity of a specific vehicle involved in a hit-and-run.
