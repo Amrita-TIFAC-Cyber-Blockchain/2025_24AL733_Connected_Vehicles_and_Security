@@ -2,7 +2,7 @@
 
 ## CVS02 - CAN FD vs Traditional CAN: Vulnerability Analysis
 
-![](https://img.shields.io/badge/Member--gold) ![](https://img.shields.io/badge/Member--gold) <br/> 
+![](https://img.shields.io/badge/Member-Akash_Gera-gold) ![](https://img.shields.io/badge/Member-C_V_Mohan_Krishna-gold) <br/> 
 ![](https://img.shields.io/badge/SDG--darkgreen) ![](https://img.shields.io/badge/SDG--darkgreen) <br/> 
 
 ![](https://img.shields.io/badge/Reviewed--brown) <br/>
