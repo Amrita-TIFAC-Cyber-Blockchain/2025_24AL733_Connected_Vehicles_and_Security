@@ -2,7 +2,7 @@
 
 ## CVS05 - 
 
-![](https://img.shields.io/badge/Member--gold) ![](https://img.shields.io/badge/Member--gold) <br/> 
+![](https://img.shields.io/badge/Member-Tanushka_Upadhyay-gold) ![](https://img.shields.io/badge/Member-Chavan_Ekta_Mohan-gold) <br/> 
 ![](https://img.shields.io/badge/SDG--darkgreen) ![](https://img.shields.io/badge/SDG--darkgreen) <br/> 
 
 ![](https://img.shields.io/badge/Reviewed--brown) <br/>
